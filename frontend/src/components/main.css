@@ -1,0 +1,58 @@
+h2 {
+  word-wrap: normal;
+}
+.msgbody {
+  padding-top: 8vh;
+  padding-bottom: 8vh;
+}
+.msgs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 3vh;
+  grid-gap: 10px;
+  color: white;
+}
+textarea {
+  border: solid 5px #feda6a;
+  border-radius: 15px;
+  font-size: 16px;
+  text-indent: 20px;
+  background-color: #393f4d;
+}
+textarea:focus {
+  outline: none;
+  border: solid 5px #fdbe01;
+}
+.message {
+  animation: growin 0.2s;
+  background-color: #393f4d;
+  padding: 2vh;
+  border-radius: 10px;
+  border-color: #feda6a;
+  border-style: solid;
+  border-width: 3px;
+}
+#root {
+  background-color: #1d1e22;
+  color: #d4d4dc;
+}
+
+@media only screen and (max-width: 600px) {
+  .msgs {
+    grid-template-columns: 1fr;
+    padding: 2vw;
+    font-size: smaller;
+  }
+}
+
+@keyframes growin {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(0.5);
+  }
+  100% {
+    transform: scale(1);
+  }
+}

@@ -1,0 +1,52 @@
+input {
+  width: 40vw;
+  height: 6vh;
+  margin-top: 2vh;
+  font-size: 20px;
+  border-radius: 50px;
+  text-indent: 20px;
+  border: solid 5px rgb(255, 183, 110);
+}
+input:focus {
+  color: rgb(52, 51, 51);
+  border: solid 5px rgb(254, 140, 26);
+}
+.loginform {
+  margin-top: 10vh;
+}
+.ti {
+  font-size: 40px;
+  padding-top: 5vh;
+  background-color: rgb(255, 183, 110);
+  padding-bottom: 5vh;
+  margin-top: -2px;
+  color: #393f4d;
+}
+.login {
+  background-color: #393f4d;
+  width: 60vw;
+  text-align: center;
+  height: 50vw;
+  margin-left: 20vw;
+  margin-top: 15vh;
+  border-radius: 10px;
+  border: solid 5px;
+  border-color: rgb(255, 183, 110);
+}
+@media only screen and (max-width: 600px) {
+  input {
+    width: 70vw;
+    height: 5vh;
+    border-radius: 10px;
+    border-radius: 50px;
+    margin-top: 2vh;
+  }
+  .login {
+    height: 120vw;
+    margin-left: 4vw;
+    width: 90vw;
+  }
+  form {
+    margin-top: 5vh;
+  }
+}
