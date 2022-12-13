@@ -19,19 +19,19 @@ const Alert = ({ type }) => {
 
   return (
     <>
-      <div>
-        <Alert severity={type}>
-          <AlertTitle>{type}</AlertTitle>
-          {type == "success" ? (
-            <>
-              Sucessfully logged in as <strong>{username}</strong>
-            </>
-          ) : (
-            <>
-              Error while logging in <strong>check username / password</strong>
-            </>
-          )}
-        </Alert>
+      <div className="alert">
+        {type == "success" ? (
+          <div className="div1" style={{ backgroundColor: "#8fff82" }}>
+            Sucessfully logged in as <strong>{username}</strong>
+          </div>
+        ) : (
+          <div
+            className="div1"
+            style={{ backgroundColor: "rgb(255, 130, 130)" }}
+          >
+            Error while logging in <strong>check username / password</strong>
+          </div>
+        )}
       </div>
     </>
   );

@@ -27,6 +27,8 @@ export const Context = ({ children }) => {
   let backendUrl = "http://192.168.1.4:8000/";
   let navigate = useNavigate();
   const [loading, setloading] = useState(false);
+  const [error, seterror] = useState(false);
+  const [logged, setlogged] = useState(false);
 
   async function login(e) {
     e.preventDefault();
@@ -36,12 +38,13 @@ export const Context = ({ children }) => {
         password: e.target.Password.value,
       })
       .catch((error) => {
-        console.log(error);
+        seterror(true);
       })
       .then((response) => {
         localStorage.setItem("authtoken", JSON.stringify(response.data));
         setauthtoken(response.data);
         setusername(jwt_decode(response.data.access).username);
+        setlogged(true);
         navigate("");
       });
   }
@@ -49,7 +52,7 @@ export const Context = ({ children }) => {
     setusername(null);
     setauthtoken(null);
     localStorage.removeItem("authtoken");
-    navigate("");
+    navigate("/login");
   }
 
   async function updatetoken() {
@@ -85,6 +88,9 @@ export const Context = ({ children }) => {
     logout: logout,
     loading: loading,
     authtoken: authtoken,
+    error: error,
+    logged: logged,
+    setlogged: setlogged,
   };
 
   return (

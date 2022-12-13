@@ -7,6 +7,20 @@ input {
   text-indent: 20px;
   border: solid 5px rgb(255, 183, 110);
 }
+.alert1 {
+  position: fixed;
+  left: 0;
+  right: 0;
+  height: 5vh;
+  top: 0;
+  text-align: center;
+}
+.alert1 > .div2 {
+  padding-top: 2vh;
+  height: 100%;
+  font-size: 20px;
+  color: black;
+}
 input:focus {
   color: rgb(52, 51, 51);
   border: solid 5px rgb(254, 140, 26);
@@ -48,5 +62,17 @@ input:focus {
   }
   form {
     margin-top: 5vh;
+  }
+  .alert1 {
+    position: fixed;
+    left: 0;
+    right: 0;
+    height: 5vh;
+  }
+  .alert1 > .div2 {
+    padding-top: 2vh;
+    height: 100%;
+    font-size: 20px;
+    color: black;
   }
 }

@@ -36,3 +36,14 @@
 .progress-bar__text {
   display: none;
 }
+
+.alert {
+  height: 9vh;
+  text-align: center;
+}
+.alert > .div1 {
+  padding-top: 2vh;
+  height: 100%;
+  font-size: 20px;
+  color: black;
+}

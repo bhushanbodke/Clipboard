@@ -5,6 +5,7 @@ import LoginContext from "../context/context";
 
 const Login = () => {
   let { login } = useContext(LoginContext);
+  let { error } = useContext(LoginContext);
 
   const style = {
     backgroundColor: "rgb(255, 183, 110)",
@@ -18,30 +19,40 @@ const Login = () => {
   };
 
   return (
-    <div className="login">
-      <div className="ti">Login</div>
-      <form id="loginform" action="" onSubmit={(e) => login(e)}>
-        <input
-          type="text"
-          label="Username"
-          placeholder="  Username"
-          name="Username"
-        />
+    <>
+      <div
+        className="alert1"
+        style={error ? { display: "block" } : { display: "none" }}
+      >
+        <div className="div2" style={{ backgroundColor: "#ff5d5d" }}>
+          Error while logging in <strong>check username / password</strong>
+        </div>
+      </div>
+      <div className="login">
+        <div className="ti">Login</div>
+        <form id="loginform" action="" onSubmit={(e) => login(e)}>
+          <input
+            type="text"
+            label="Username"
+            placeholder="  Username"
+            name="Username"
+          />
+          <p />
+          <input
+            type="password"
+            label="Password"
+            placeholder="  Password"
+            name="Password"
+          />
+          <p />
+          <Button type="submit" sx={style} variant="contained">
+            Login
+          </Button>
+        </form>
         <p />
-        <input
-          type="password"
-          label="Password"
-          placeholder="  Password"
-          name="Password"
-        />
-        <p />
-        <Button type="submit" sx={style} variant="contained">
-          Login
-        </Button>
-      </form>
-      <p />
-      <h4>Don't have an account ?</h4>
-    </div>
+        <h4>Don't have an account ?</h4>
+      </div>
+    </>
   );
 };
 
