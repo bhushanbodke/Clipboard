@@ -17,6 +17,7 @@ textarea {
   border-radius: 15px;
   font-size: 16px;
   text-indent: 20px;
+  width: 55vh;
   background-color: #393f4d;
 }
 textarea:focus {
@@ -60,6 +61,10 @@ textarea:focus {
   }
   .alert {
     margin-top: 7vh;
+  }
+  textarea {
+    width: 35vh;
+    margin-left: -54px;
   }
 }
 

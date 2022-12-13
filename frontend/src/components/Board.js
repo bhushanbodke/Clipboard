@@ -181,7 +181,7 @@ const Main = (props) => {
                   name="MessageBody"
                   label="Clipboard"
                   placeholder="Clipboard"
-                  cols="40"
+                  cols="10"
                   rows="12"
                 ></textarea>
 

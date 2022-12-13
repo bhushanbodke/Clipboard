@@ -18,13 +18,14 @@ const Files = () => {
   let [File, setFile] = useState();
   let [FileType, setFileType] = useState();
   let [FileName, setFileName] = useState();
-  let [FileSize, setFileSize] = useState();
-  let [uploadedSize, setuploadedSize] = useState();
+  let [FileSize, setFileSize] = useState(0);
   let [showPaper, setshowPaper] = useState(false);
   let [Loaded, setLoaded] = useState(false);
+  let [showalert, setshowalert] = useState("");
   let { authtoken } = useContext(LoginContext);
   let { user } = useContext(LoginContext);
   let { loading } = useContext(LoginContext);
+  let [percent, setpercent] = useState(0);
   let BackendUrl = "http://192.168.1.4:8000";
 
   useEffect(() => {
@@ -47,9 +48,13 @@ const Files = () => {
   function UploadFile(e) {
     e.preventDefault();
     if (!File) {
-      alert("select file first");
+      setshowalert("not selected");
+      setTimeout(() => {
+        setshowalert("");
+      }, 5000);
       return;
     }
+    setshowalert("upload");
     //upload data
     let formdata = new FormData();
     formdata.append("Files", File);
@@ -66,15 +71,16 @@ const Files = () => {
       },
       // get upload progress
       onUploadProgress: (progressEvent) =>
-        setuploadedSize(progressEvent.Loaded),
+        setpercent(progressEvent.progress * 100),
     };
     // upload the data
     axios.post(BackendUrl + "/addfiles", formdata, header).then((response) => {
+      setshowalert("");
       GetFiles();
-      console.log(response.data);
       deselect();
     });
   }
+
   function DelFile(id) {
     axios
       .delete(BackendUrl + "/deletefile/" + id)
@@ -95,11 +101,47 @@ const Files = () => {
     setFileName("");
     setFileSize("");
   }
+  function ShowAlertBar() {
+    if (showalert === "not selected") {
+      return (
+        <Paper elevation={10}>
+          <div className="alert" style={{ zIndex: 1 }}>
+            <div className="div1" style={{ backgroundColor: "#ff5d5d" }}>
+              <strong>Error : Select file first</strong>
+            </div>
+          </div>
+        </Paper>
+      );
+    } else if (showalert === "upload") {
+      return (
+        //File upload progress Bar
+        <div className="container_1">
+          <div className="container">
+            <div className="progress-bar__container">
+              <div
+                className="progress-bar"
+                style={styleprogress}
+                id="progress-bar"
+              ></div>
+            </div>
+          </div>
+          <div>{percent + " % Uploaded"}</div>
+        </div>
+      );
+    } else {
+      return null;
+    }
+  }
+
   const button = {
     backgroundColor: "#66fcf1",
     color: "black",
+    width: "32.5vw",
     "&:hover": {
       backgroundColor: "#3fb0ac",
+    },
+    ["@media(max-width:600px)"]: {
+      width: "65vw",
     },
   };
 
@@ -134,6 +176,7 @@ const Files = () => {
       width: "55vw",
     },
   };
+  let styleprogress = { width: percent.toString() + "%" };
 
   return (
     <>
@@ -141,6 +184,7 @@ const Files = () => {
         <Loading />
       ) : (
         <>
+          {ShowAlertBar()}
           <div className="title">
             <h2>Files</h2>
           </div>

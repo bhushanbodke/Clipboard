@@ -41,8 +41,6 @@ def PostFiles(request):
 def FilesDelete(request,pk):
     file = Files.objects.get(id =pk)
     file.delete()
-    filepath = str(file.Files).replace("/", "\\")
-    os.remove("D:\\FileTransfer\\clipboard\\media\\"+filepath)
     return Response("deleted")    
     
 
