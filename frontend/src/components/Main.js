@@ -9,6 +9,7 @@ import Navigation from "./Navigation";
 import CloseIcon from "@mui/icons-material/Close";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import Send from "@mui/icons-material/Send";
+import Alert from "./Alert";
 
 const Main = (props) => {
   let { user } = useContext(LoginContext);
@@ -97,105 +98,107 @@ const Main = (props) => {
   }, [AllMessages]);
   //to get Unread Messages at 5 sec Inteveral
   return (
-    <>
-      {!Loaded ? (
-        <Loading />
-      ) : (
-        <>
-          <div className="title">
-            <h2>Clipboard</h2>
-          </div>
-          <div
-            className="msgbody"
-            style={showPaper ? { filter: "blur(5px)" } : { filter: "none" }}
-          >
-            <div className="msgs">
-              {AllMessages.map((message) => (
-                <div id={message.id} className="message" key={message.id}>
-                  <div>
-                    <h2>{message.body}</h2>
-                  </div>
-                  <p />
+    <Alert type="success" />
 
-                  <DeleteForeverIcon
-                    sx={{
-                      paddingLeft: "40vw",
-                      ["@media (max-width:600px)"]: {
-                        paddingLeft: "78vw",
-                      },
-                    }}
-                    onClick={() => DelMessage(message.id)}
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-          <div
-            id="paper"
-            style={showPaper ? { display: "block" } : { display: "none" }}
-          >
-            <Paper elevation={10} sx={pagestyle}>
-              <div
-                style={{
-                  textAlign: "center",
-                  color: "white",
-                  fontSize: "25px",
-                }}
-              >
-                Add
-              </div>
-              <CloseIcon
-                sx={{
-                  paddingLeft: "40vw",
-                  ["@media (max-width:600px)"]: {
-                    paddingLeft: "55vw",
-                  },
-                }}
-                onClick={() => setshowPaper(false)}
-              />
+    // <>
+    //   {!Loaded ? (
+    //     <Loading />
+    //   ) : (
+    //     <>
+    //       <div className="title">
+    //         <h2>Clipboard</h2>
+    //       </div>
+    //       <div
+    //         className="msgbody"
+    //         style={showPaper ? { filter: "blur(5px)" } : { filter: "none" }}
+    //       >
+    //         <div className="msgs">
+    //           {AllMessages.map((message) => (
+    //             <div id={message.id} className="message" key={message.id}>
+    //               <div>
+    //                 <h2>{message.body}</h2>
+    //               </div>
+    //               <p />
 
-              <form
-                action=""
-                onSubmit={(e) => {
-                  SaveMsg(e);
-                  e.target.MessageBody.value == ""
-                    ? alert("No")
-                    : setshowPaper(false);
-                }}
-              >
-                <textarea
-                  type="text"
-                  name="MessageBody"
-                  label="Clipboard"
-                  placeholder="Clipboard"
-                  cols="40"
-                  rows="12"
-                ></textarea>
+    //               <DeleteForeverIcon
+    //                 sx={{
+    //                   paddingLeft: "40vw",
+    //                   ["@media (max-width:600px)"]: {
+    //                     paddingLeft: "78vw",
+    //                   },
+    //                 }}
+    //                 onClick={() => DelMessage(message.id)}
+    //               />
+    //             </div>
+    //           ))}
+    //         </div>
+    //       </div>
+    //       <div
+    //         id="paper"
+    //         style={showPaper ? { display: "block" } : { display: "none" }}
+    //       >
+    //         <Paper elevation={10} sx={pagestyle}>
+    //           <div
+    //             style={{
+    //               textAlign: "center",
+    //               color: "white",
+    //               fontSize: "25px",
+    //             }}
+    //           >
+    //             Add
+    //           </div>
+    //           <CloseIcon
+    //             sx={{
+    //               paddingLeft: "40vw",
+    //               ["@media (max-width:600px)"]: {
+    //                 paddingLeft: "55vw",
+    //               },
+    //             }}
+    //             onClick={() => setshowPaper(false)}
+    //           />
 
-                <p />
-                <Button
-                  sx={{
-                    backgroundColor: "#feda6a",
-                    color: "black",
-                    width: "40vw",
-                  }}
-                  variant="contained"
-                  type="submit"
-                  endIcon={<Send />}
-                >
-                  Send
-                </Button>
-              </form>
-            </Paper>
-          </div>
-          <Navigation
-            setshowPaper={setshowPaper}
-            showPaper={showPaper}
-            page={"clipboard"}
-          />
-        </>
-      )}
-    </>
+    //           <form
+    //             action=""
+    //             onSubmit={(e) => {
+    //               SaveMsg(e);
+    //               e.target.MessageBody.value == ""
+    //                 ? alert("No")
+    //                 : setshowPaper(false);
+    //             }}
+    //           >
+    //             <textarea
+    //               type="text"
+    //               name="MessageBody"
+    //               label="Clipboard"
+    //               placeholder="Clipboard"
+    //               cols="40"
+    //               rows="12"
+    //             ></textarea>
+
+    //             <p />
+    //             <Button
+    //               sx={{
+    //                 backgroundColor: "#feda6a",
+    //                 color: "black",
+    //                 width: "40vw",
+    //               }}
+    //               variant="contained"
+    //               type="submit"
+    //               endIcon={<Send />}
+    //             >
+    //               Send
+    //             </Button>
+    //           </form>
+    //         </Paper>
+    //       </div>
+    //       <Navigation
+    //         setshowPaper={setshowPaper}
+    //         showPaper={showPaper}
+    //         page={"clipboard"}
+    //       />
+    //     </>
+    //   )}
+    // </>
   );
 };
 
