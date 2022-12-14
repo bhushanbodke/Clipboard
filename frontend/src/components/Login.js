@@ -28,7 +28,14 @@ const Login = () => {
           Error while logging in <strong>check username / password</strong>
         </div>
       </div>
-      <div className="login">
+      <div
+        className="login"
+        style={
+          JSON.parse(localStorage.getItem("theme"))
+            ? { backgroundColor: "#393f4d" }
+            : { backgroundColor: "white" }
+        }
+      >
         <div className="ti">Login</div>
         <form id="loginform" action="" onSubmit={(e) => login(e)}>
           <input

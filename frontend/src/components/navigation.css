@@ -1,10 +1,6 @@
-:root {
-  --primary: #feda6a;
-  --secondary: #393f4d;
-}
 .title {
   background-color: var(--primary);
-  color: var(--secondary);
+  color: var(--card-background);
 }
 .nav {
   display: grid;
@@ -14,8 +10,8 @@
   right: 0;
   height: 6vh;
   padding-top: 1vh;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  background-color: var(--secondary);
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  background-color: var(--card-background);
 }
 .item {
   text-align: center;

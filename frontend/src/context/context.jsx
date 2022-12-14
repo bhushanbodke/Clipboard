@@ -8,6 +8,10 @@ const LoginContext = createContext();
 export default LoginContext;
 
 export const Context = ({ children }) => {
+  if (!localStorage.getItem("theme")) {
+    localStorage.setItem("theme", true);
+  }
+
   const [username, setusername] = useState(
     localStorage.getItem("authtoken")
       ? jwt_decode(localStorage.getItem("authtoken")).username

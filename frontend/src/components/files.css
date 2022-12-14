@@ -1,7 +1,7 @@
 .Files {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  color: white;
+  color: var(--text-color);
   grid-gap: 10px;
   font-size: large;
 }
@@ -14,7 +14,7 @@
   height: 20vh;
   padding-top: 5vh;
   text-align: center;
-  background-color: #393f4d;
+  background-color: var(--card-background);
   border: solid #66fcf1 4px;
   border-radius: 10px;
 }
@@ -60,7 +60,7 @@ a {
   width: 100%;
   margin-top: 9vh;
   position: fixed;
-  background-color: #393f4d;
+  background-color: var(--card-background);
   align-items: center;
   text-align: center;
 }
@@ -86,7 +86,7 @@ a {
 .progress-bar {
   height: 100%;
   content: "";
-  background-color: #e76f51;
+  background-color: var(--primary);
   bottom: 0;
   left: -100%;
   border-radius: inherit;
@@ -99,7 +99,12 @@ a {
 
 @media only screen and (max-width: 600px) {
   .container {
-    height: 8vh;
-    margin-top: 6vh;
+    height: 7vh;
+  }
+  .progress-bar__container {
+    margin-top: 2vh;
+  }
+  .container_1 {
+    margin-top: 5vh;
   }
 }
