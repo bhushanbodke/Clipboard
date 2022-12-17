@@ -34,7 +34,7 @@
 .item:hover .label {
   opacity: 1;
 }
-.item:hover .icon {
+.item:hover {
   transform: translatey(-10px);
   transition-duration: 0.5s;
 }

@@ -6,7 +6,6 @@ import LoginContext from "../context/context";
 const Login = () => {
   let { login } = useContext(LoginContext);
   let { error } = useContext(LoginContext);
-
   const style = {
     backgroundColor: "rgb(255, 183, 110)",
     color: "#393f4d",
@@ -37,7 +36,7 @@ const Login = () => {
         }
       >
         <div className="ti">Login</div>
-        <form id="loginform" action="" onSubmit={(e) => login(e)}>
+        <form className="loginform" id="loginform" action="" onSubmit={(e) => {login(e)}}>
           <input
             type="text"
             label="Username"
@@ -52,7 +51,7 @@ const Login = () => {
             name="Password"
           />
           <p />
-          <Button type="submit" sx={style} variant="contained">
+          <Button type="submit"  sx={style} variant="contained">
             Login
           </Button>
         </form>

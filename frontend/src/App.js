@@ -1,10 +1,9 @@
 import "./App.css";
-import LoginContext, { Context } from "./context/context";
+import LoginContext from "./context/context";
 import { Routes, Route } from "react-router-dom";
 import Login from "./components/Login";
 import { useContext, useEffect } from "react";
 import Files from "./components/Files";
-import Navigation from "./components/Navigation";
 import Board from "./components/Board";
 
 function App() {

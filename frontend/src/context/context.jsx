@@ -28,16 +28,19 @@ export const Context = ({ children }) => {
       ? JSON.parse(localStorage.getItem("authtoken"))
       : null
   );
-  let backendUrl = "http://192.168.1.4:8000/";
   let navigate = useNavigate();
   const [loading, setloading] = useState(false);
   const [error, seterror] = useState(false);
+  const [backendUrl, setbackendUrl] = useState("http://192.168.1.3:8000");
   const [logged, setlogged] = useState(false);
 
   async function login(e) {
+    console.log(e.target.Username.value);
+    console.log(e.target.Password.value);
+    
     e.preventDefault();
     axios
-      .post(backendUrl + "api/token/", {
+      .post(backendUrl + "/api/token/", {
         username: e.target.Username.value,
         password: e.target.Password.value,
       })
@@ -64,10 +67,9 @@ export const Context = ({ children }) => {
       return;
     } else {
       axios
-        .post(backendUrl + "api/token/refresh/", {
+        .post(backendUrl + "/api/token/refresh/", {
           refresh: authtoken.refresh,
         })
-        .catch(() => window.location.reload())
         .then((response) => {
           localStorage.setItem("authtoken", JSON.stringify(response.data));
           setauthtoken(response.data);
@@ -95,6 +97,7 @@ export const Context = ({ children }) => {
     error: error,
     logged: logged,
     setlogged: setlogged,
+    backendUrl: backendUrl,
   };
 
   return (

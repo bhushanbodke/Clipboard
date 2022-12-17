@@ -4,6 +4,7 @@ import { Button, Paper } from "@mui/material";
 import LoginContext from "../context/context";
 import { useState } from "react";
 import axios from "axios";
+import GoBottom from "./GoBottom";
 import Loading from "./Loading";
 import Navigation from "./Navigation";
 import CloseIcon from "@mui/icons-material/Close";
@@ -15,11 +16,17 @@ const Main = (props) => {
   let { username } = useContext(LoginContext);
   let { setlogged } = useContext(LoginContext);
   let { authtoken } = useContext(LoginContext);
+  let { backendUrl } = useContext(LoginContext);
   let { logged } = useContext(LoginContext);
+  let [serverError, setserverError] = useState(false);
   let [showPaper, setshowPaper] = useState(false);
   let [Loaded, setLoaded] = useState(false);
-  let [AllMessages, setMessages] = useState([]);
-  let backendURL = "http://192.168.1.4:8000/";
+  let [AllMessages, setMessages] = useState(
+    localStorage.getItem("messages")
+      ? JSON.parse(localStorage.getItem("messages"))
+      : []
+  );
+
   let header = {
     headers: {
       Authorization: `Bearer ${authtoken.access}`,
@@ -29,7 +36,7 @@ const Main = (props) => {
   // mui style override
   const pagestyle = {
     width: "40vw",
-    height: "40vh",
+    height: "50vh",
     position: "fixed",
     top: "20vh",
     left: "25vw",
@@ -42,16 +49,29 @@ const Main = (props) => {
     ["@media (max-width:600px)"]: {
       left: "5vw",
       width: "50vw",
+      height: "40vh",
     },
   };
 
   //Get all messages
   function GetMessages() {
-    axios.get(backendURL + "msg", header).then((response) => {
-      setMessages(response.data);
-      localStorage.setItem("No", response.data.length);
-      setLoaded(true);
-    });
+    axios
+      .get(backendUrl + "/msg", header)
+      .catch((error) => {
+        setLoaded(true);
+        if (AllMessages.length === 0) {
+          setserverError(true);
+          throw error;
+        } else {
+          throw error;
+        }
+      })
+      .then((response) => {
+        setMessages(response.data);
+        localStorage.setItem("messages", JSON.stringify(response.data));
+        localStorage.setItem("No", response.data.length);
+        setLoaded(true);
+      });
   }
 
   useEffect(() => {
@@ -62,10 +82,10 @@ const Main = (props) => {
   }, []);
 
   function GetNo() {
-    axios.get(backendURL + "getNo", header).then((response) => {
+    axios.get(backendUrl + "/getNo", header).then((response) => {
       console.log(response.data);
       let no = localStorage.getItem("No");
-      if (no != response.data) {
+      if (no !== response.data) {
         GetMessages();
       }
     });
@@ -79,6 +99,18 @@ const Main = (props) => {
     };
   }, []);
 
+  // server error
+  function ServerError() {
+    if (serverError) {
+      return (
+        <div className="servererror title">
+          <h2>Server is Offline</h2>
+        </div>
+      );
+    } else {
+      return null;
+    }
+  }
   function SaveMsg(e) {
     e.preventDefault();
     let data = {
@@ -86,28 +118,24 @@ const Main = (props) => {
       owner: user,
     };
     axios
-      .post(backendURL + "addmsg", data)
+      .post(backendUrl + "/addmsg", data)
       .then(() => GetMessages())
       .then(() => (e.target.MessageBody.value = ""));
   }
   function DelMessage(id) {
     axios
-      .delete(backendURL + "deletemsg/" + id)
+      .delete(backendUrl + "/deletemsg/" + id)
       .then((response) => console.log(response.data))
       .then(() => (document.getElementById(id).style.display = "none"));
   }
 
-  // TO scroll to bottom of the screen
-  useEffect(() => {
-    window.scrollTo(0, document.body.scrollHeight);
-  }, [AllMessages]);
-  //to get Unread Messages at 5 sec Inteveral
   return (
     <>
       {!Loaded ? (
         <Loading />
       ) : (
         <>
+          <GoBottom color="#feda6a" back="#D29707" />
           {logged ? (
             <div className="alert">
               <div className="div1" style={{ backgroundColor: "#8fff82" }}>
@@ -118,6 +146,7 @@ const Main = (props) => {
           <div className="title">
             <h2>Clipboard</h2>
           </div>
+          {ServerError()}
           <div
             className="msgbody"
             style={showPaper ? { filter: "blur(5px)" } : { filter: "none" }}
@@ -171,7 +200,7 @@ const Main = (props) => {
                 action=""
                 onSubmit={(e) => {
                   SaveMsg(e);
-                  e.target.MessageBody.value == ""
+                  e.target.MessageBody.value === ""
                     ? alert("No")
                     : setshowPaper(false);
                 }}

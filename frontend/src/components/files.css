@@ -8,10 +8,13 @@
 .header {
   display: flex;
 }
+.servererror{
+  margin-top: 10.5vh;
+  background-color: rgb(252,92,92);
+}
 .File {
   animation: growin 0.2s;
-  text-align: center;
-  height: 20vh;
+  height: 30vh;
   padding-top: 5vh;
   text-align: center;
   background-color: var(--card-background);
@@ -19,9 +22,10 @@
   border-radius: 10px;
 }
 .fileupload {
-  margin-top: 15vh;
+  margin-top: 13vh;
 }
 .filesbody {
+  margin-top: 12vh;
   padding-bottom: 10vh;
   padding-left: 2vw;
   padding-right: 2vw;
@@ -45,20 +49,11 @@ a {
   text-decoration: none;
 }
 
-@media only screen and (max-width: 600px) {
-  .Files {
-    display: block;
-  }
-  .File {
-    margin-top: 10px;
-  }
-}
-
 .container_1 {
   height: 10vh;
   z-index: 1;
   width: 100%;
-  margin-top: 9vh;
+  margin-top: -2vh;
   position: fixed;
   background-color: var(--card-background);
   align-items: center;
@@ -104,7 +99,16 @@ a {
   .progress-bar__container {
     margin-top: 2vh;
   }
-  .container_1 {
-    margin-top: 5vh;
+  .Files {
+    display: block;
+  }
+  .File {
+    margin-top: 10px;
+  }
+  .filesbody {
+    margin-top: 8vh;
+  }
+  .servererror{
+    margin-top: 7.5vh;
   }
 }

@@ -12,6 +12,7 @@ import LoginContext from "../context/context";
 import Navigation from "./Navigation";
 import "./files.css";
 import Loading from "./Loading";
+import GoBottom from "./GoBottom";
 
 const Files = () => {
   let [AllFiles, setAllFiles] = useState([]);
@@ -19,20 +20,18 @@ const Files = () => {
   let [FileType, setFileType] = useState();
   let [FileName, setFileName] = useState();
   let [FileSize, setFileSize] = useState(0);
+  let [serverError, setserverError] = useState(false);
   let [showPaper, setshowPaper] = useState(false);
   let [Loaded, setLoaded] = useState(false);
   let [showalert, setshowalert] = useState("");
   let { authtoken } = useContext(LoginContext);
   let { user } = useContext(LoginContext);
-  let { loading } = useContext(LoginContext);
   let [percent, setpercent] = useState(0);
-  let BackendUrl = "http://192.168.1.4:8000";
+  let { backendUrl } = useContext(LoginContext);
 
   useEffect(() => {
-    if (loading) {
-      GetFiles();
-    }
-  }, [loading]);
+    GetFiles();
+  }, []);
 
   function GetFiles() {
     let header = {
@@ -41,8 +40,16 @@ const Files = () => {
       },
     };
     axios
-      .get(BackendUrl + "/files", header)
-      .then((response) => setAllFiles(response.data))
+      .get(backendUrl + "/files", header)
+      .catch((error) => {
+        setLoaded(true);
+        setserverError(true);
+        return;
+      })
+      .then((response) => {
+        setAllFiles(response.data);
+        localStorage.setItem("files", JSON.stringify(response.data));
+      })
       .then(() => setLoaded(true));
   }
   function UploadFile(e) {
@@ -71,10 +78,10 @@ const Files = () => {
       },
       // get upload progress
       onUploadProgress: (progressEvent) =>
-        setpercent(progressEvent.progress * 100),
+        setpercent(progressEvent.progress.toFixed(2) * 100),
     };
     // upload the data
-    axios.post(BackendUrl + "/addfiles", formdata, header).then((response) => {
+    axios.post(backendUrl + "/addfiles", formdata, header).then((response) => {
       setshowalert("");
       GetFiles();
       deselect();
@@ -83,7 +90,7 @@ const Files = () => {
 
   function DelFile(id) {
     axios
-      .delete(BackendUrl + "/deletefile/" + id)
+      .delete(backendUrl + "/deletefile/" + id)
       .then((response) => console.log(response.data))
       .then(() => (document.getElementById(id).style.display = "none"));
   }
@@ -101,6 +108,18 @@ const Files = () => {
     setFileName("");
     setFileSize("");
   }
+  function ServerError() {
+    if (serverError) {
+      return (
+        <div className="servererror title">
+          <h2>Server is Offline</h2>
+        </div>
+      );
+    } else {
+      return null;
+    }
+  }
+
   function ShowAlertBar() {
     if (showalert === "not selected") {
       return (
@@ -147,11 +166,11 @@ const Files = () => {
 
   const pill = {
     borderRadius: 50,
-    backgroundColor: "#3fb0ac",
+    backgroundColor: "#66fcf1",
     margin: "5px",
     marginTop: "25px",
     "&:hover": {
-      backgroundColor: "#66fcf1",
+      backgroundColor: "#3fb0ac",
     },
   };
   const icon = {
@@ -184,7 +203,10 @@ const Files = () => {
         <Loading />
       ) : (
         <>
+          <GoBottom color="#66fcf1" back="#3fb0ac" />
+
           {ShowAlertBar()}
+          {ServerError()}
           <div className="title">
             <h2>Files</h2>
           </div>
@@ -205,12 +227,12 @@ const Files = () => {
                   <div>
                     <b>File Type :</b> {file.filetype}
                   </div>
-                  <a href={BackendUrl + file.Files}>
+                  <a href={backendUrl + file.Files}>
                     <Button sx={pill} variant="contained">
                       <DownloadIcon sx={icon} />
                     </Button>
                   </a>
-                  <a href={BackendUrl + file.Files} target="_blank">
+                  <a href={backendUrl + file.Files} target="_blank">
                     <Button sx={pill} variant="contained">
                       <VisibilityIcon sx={icon} />
                     </Button>

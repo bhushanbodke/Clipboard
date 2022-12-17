@@ -25,7 +25,6 @@ SECRET_KEY = 'django-insecure-k60ha3b4q!i#x(&q$n&ubu5ckdo*_joemlr=00@n_(vsc!edoi
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -68,7 +67,7 @@ MIDDLEWARE = [
 
 CORS_ORIGIN_ALLOW_ALL = True
 
-ALLOWED_HOSTS = ['192.168.1.4']
+ALLOWED_HOSTS = ['192.168.1.4','192.168.1.2','192.168.1.3']
 
 ROOT_URLCONF = 'clipboard.urls'
 
