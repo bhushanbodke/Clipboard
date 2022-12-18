@@ -8,7 +8,7 @@ import axios from "axios";
 import LoginContext from "../context/context";
 import "./files.css";
 
-const FileMap = ({ file }) => {
+const FileMap = ({ file, setfileurl, settype, setshow }) => {
   let { backendUrl } = useContext(LoginContext);
 
   const pill = {
@@ -40,11 +40,21 @@ const FileMap = ({ file }) => {
       .then(() => (document.getElementById(id).style.display = "none"));
   }
 
+  function handlepreview(file) {
+    let url = backendUrl + file.Files;
+    setshow(true);
+    setfileurl(url);
+    settype(file.filetype.split("/")[0]);
+  }
   if (file.filetype.split("/")[0] == "image") {
     return (
       <div key={file.id} id={file.id} className="Fileimage">
         <div>
-          <img src={backendUrl + file.Files} width="130vw" height="160vh" />
+          <img
+            className="img"
+            src={backendUrl + file.Files}
+            onClick={() => handlepreview(file)}
+          />
         </div>
         <div>
           <div style={{ paddingTop: "1vh" }}>
@@ -95,8 +105,12 @@ const FileMap = ({ file }) => {
               <DownloadIcon sx={icon} />
             </Button>
           </a>
-          <a href={backendUrl + file.Files} target="_blank">
-            <Button sx={pill1} variant="contained">
+          <a>
+            <Button
+              sx={pill1}
+              variant="contained"
+              onClick={() => handlepreview(file)}
+            >
               <VisibilityIcon sx={icon} />
             </Button>
           </a>

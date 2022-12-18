@@ -3,11 +3,9 @@ import CloseIcon from "@mui/icons-material/Close";
 import { Button, Paper } from "@mui/material";
 import Upload from "@mui/icons-material/Upload";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
-import DownloadIcon from "@mui/icons-material/Download";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { useState, useContext, useEffect } from "react";
 import axios from "axios";
+import FilePreview from "./FilePreview";
 import LoginContext from "../context/context";
 import Navigation from "./Navigation";
 import "./files.css";
@@ -23,7 +21,10 @@ const Files = () => {
   let [FileSize, setFileSize] = useState(0);
   let [serverError, setserverError] = useState(false);
   let [showPaper, setshowPaper] = useState(false);
+  let [showpreview, setshowpreview] = useState(false);
+  let [Fileurl, setFileurl] = useState("");
   let [Loaded, setLoaded] = useState(false);
+  let [type, settype] = useState('');
   let [showalert, setshowalert] = useState("");
   let { authtoken } = useContext(LoginContext);
   let { user } = useContext(LoginContext);
@@ -158,7 +159,7 @@ const Files = () => {
 
   const pagestyle = {
     width: "30vw",
-    height: "35vh",
+    height: "40vh",
     position: "fixed",
     top: "20vh",
     color: "#66fcf1",
@@ -184,7 +185,12 @@ const Files = () => {
       ) : (
         <>
           <GoBottom color="#66fcf1" back="#3fb0ac" />
-
+          <FilePreview
+            fileurl={Fileurl}
+            show={showpreview}
+            setshow={setshowpreview}
+            type = {type}
+          />
           {ShowAlertBar()}
           {ServerError()}
           <div className="title">
@@ -196,7 +202,12 @@ const Files = () => {
           >
             <div className="Files">
               {AllFiles.map((file) => (
-                <FileMap file={file} />
+                <FileMap
+                  file={file}
+                  setfileurl={setFileurl}
+                  setshow={setshowpreview}
+                  settype = {settype}
+                />
               ))}
             </div>
           </div>
