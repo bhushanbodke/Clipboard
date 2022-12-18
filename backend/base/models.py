@@ -10,12 +10,14 @@ class Files(models.Model):
     size         = models.IntegerField(blank = False);
     filetype     = models.CharField(blank =True,max_length=100)
 
+    def __str__(self):
+        return self.fileName
+
+
 class Messages(models.Model):
     owner        = models.ForeignKey(User,on_delete=models.CASCADE,related_name="messages");
     sendTime     = models.DateTimeField(auto_now_add=True)
     body         = models.CharField(max_length=5000);
     def __str__(self):
         return f"body:{self.body}"
-    
-    
     

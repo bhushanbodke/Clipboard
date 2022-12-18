@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+
 const GoBottom = ({ color, back }) => {
   let [bottom, setbottom] = useState(false);
   let [up, setup] = useState(true);
@@ -14,17 +15,25 @@ const GoBottom = ({ color, back }) => {
       backgroundColor: back,
     },
   };
+  function scrollbottom() {
+    document.querySelector("body").scroll(0, document.body.scrollHeight);
+  }
+  function scrolltop() {
+    document.querySelector("body").scroll(0, 0);
+  }
 
   return (
     <>
       <div style={bottom ? { display: "none" } : { display: "block" }}>
         <div
-          style={{ position: "fixed", right: "3vw", bottom: "12vh", zIndex: 2 }}
+          style={{
+            position: "fixed",
+            right: "3vw",
+            bottom: "12vh",
+            zIndex: 2,
+          }}
           onClick={() => {
-            window.scrollTo({
-              top: document.documentElement.scrollHeight,
-              behavior: "smooth",
-            });
+            scrollbottom();
             setbottom(true);
             setup(false);
           }}
@@ -38,7 +47,7 @@ const GoBottom = ({ color, back }) => {
         <div
           style={{ position: "fixed", right: "3vw", top: "12vh", zIndex: 2 }}
           onClick={() => {
-            window.scrollTo({ top: 0, behavior: "smooth" });
+            scrolltop();
             setup(true);
             setbottom(false);
           }}

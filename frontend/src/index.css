@@ -2,8 +2,8 @@
 
 :root {
   --primary: #feda6a;
-  --background: #1d1e22;
-  --card-background: #393f4d;
+  --background: #393f4d;
+  --card-background: #000000;
   --text-color: white;
   --text-color-secondary: #393f4d;
 }
@@ -14,16 +14,17 @@ body {
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
   background-color: var(--background);
+  scroll-behavior: smooth;
 }
 html,
 body {
   margin: 0;
   height: 100%;
+  overflow-x: hidden;
 }
 .title {
   position: fixed;
-  left: 0;
-  right: 0;
+  width: 100%;
   top: 0;
   text-align: center;
   z-index: 1;

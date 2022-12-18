@@ -13,6 +13,7 @@ import Navigation from "./Navigation";
 import "./files.css";
 import Loading from "./Loading";
 import GoBottom from "./GoBottom";
+import FileMap from "./FileMap";
 
 const Files = () => {
   let [AllFiles, setAllFiles] = useState([]);
@@ -88,13 +89,6 @@ const Files = () => {
     });
   }
 
-  function DelFile(id) {
-    axios
-      .delete(backendUrl + "/deletefile/" + id)
-      .then((response) => console.log(response.data))
-      .then(() => (document.getElementById(id).style.display = "none"));
-  }
-
   // set the files selected by user
   function updateFiles(e) {
     setFile(e.target.files[0]);
@@ -137,14 +131,12 @@ const Files = () => {
         <div className="container_1">
           <div className="container">
             <div className="progress-bar__container">
-              <div
-                className="progress-bar"
-                style={styleprogress}
-                id="progress-bar"
-              ></div>
+              <div className="progress-bar" style={styleprogress}></div>
             </div>
           </div>
-          <div>{percent + " % Uploaded"}</div>
+          <div style={{ marginTop: "-15px" }}>
+            {percent.toFixed(0).toString()}% uploaded
+          </div>
         </div>
       );
     } else {
@@ -164,18 +156,6 @@ const Files = () => {
     },
   };
 
-  const pill = {
-    borderRadius: 50,
-    backgroundColor: "#66fcf1",
-    margin: "5px",
-    marginTop: "25px",
-    "&:hover": {
-      backgroundColor: "#3fb0ac",
-    },
-  };
-  const icon = {
-    color: "black",
-  };
   const pagestyle = {
     width: "30vw",
     height: "35vh",
@@ -216,35 +196,7 @@ const Files = () => {
           >
             <div className="Files">
               {AllFiles.map((file) => (
-                <div key={file.id} id={file.id} className="File">
-                  <div>
-                    {" "}
-                    <b>File Name :</b> {file.fileName}
-                  </div>
-                  <div>
-                    <b>File Size :</b> {(file.size / 1000000).toFixed(2)} Mb
-                  </div>
-                  <div>
-                    <b>File Type :</b> {file.filetype}
-                  </div>
-                  <a href={backendUrl + file.Files}>
-                    <Button sx={pill} variant="contained">
-                      <DownloadIcon sx={icon} />
-                    </Button>
-                  </a>
-                  <a href={backendUrl + file.Files} target="_blank">
-                    <Button sx={pill} variant="contained">
-                      <VisibilityIcon sx={icon} />
-                    </Button>
-                  </a>
-                  <Button
-                    sx={pill}
-                    onClick={() => DelFile(file.id)}
-                    variant="contained"
-                  >
-                    <DeleteForeverIcon sx={icon} />
-                  </Button>
-                </div>
+                <FileMap file={file} />
               ))}
             </div>
           </div>
@@ -285,6 +237,10 @@ const Files = () => {
                   onSubmit={(e) => {
                     UploadFile(e);
                     File ? setshowPaper(false) : console.log(true);
+                    window.scrollTo({
+                      top: document.documentElement.scrollHeight,
+                      behavior: "smooth",
+                    });
                   }}
                 >
                   <input

@@ -17,7 +17,7 @@ const Navigation = ({ setshowPaper, showPaper, page }) => {
   let [darkTheme, setdarkTheme] = useState(
     JSON.parse(localStorage.getItem("theme"))
   );
-
+  console.log(document.querySelector("body").scrollTop);
   useEffect(() => {
     let r = document.querySelector(":root");
     if (page == "clipboard") {
@@ -36,7 +36,7 @@ const Navigation = ({ setshowPaper, showPaper, page }) => {
       r.style.setProperty("--card-background", "white");
       r.style.setProperty("--text-color", "black");
     } else {
-      r.style.setProperty("--card-background", "#393f4d");
+      r.style.setProperty("--card-background", "black");
       r.style.setProperty("--text-color", "white");
     }
     localStorage.setItem("theme", darkTheme);
@@ -44,7 +44,7 @@ const Navigation = ({ setshowPaper, showPaper, page }) => {
 
   let navigate = useNavigate();
   return (
-    <div className="nav">
+    <div className="nav" style={{ zIndex: 1 }}>
       <div
         className="item"
         onClick={() => {
