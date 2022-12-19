@@ -2,13 +2,22 @@ import React from "react";
 import CloseIcon from "@mui/icons-material/Close";
 
 const FilePreview = ({ fileurl, type, show, setshow }) => {
+  let close = {
+    top: "-45vh",
+    position: "relative",
+    right: "7vw",
+    ["@media(max-width:600px)"]: {
+      top: "-30vh",
+      right: "0",
+    },
+  };
   if (show) {
     if (type == "image") {
       return (
         <div className="FileContainer">
           <img src={fileurl} />
           <CloseIcon
-            sx={{ top: "-45vh", position: "relative", right: "7vw" }}
+            sx={close}
             onClick={() => {
               setshow(false);
             }}
@@ -22,7 +31,7 @@ const FilePreview = ({ fileurl, type, show, setshow }) => {
             <source src={fileurl} type="video/mp4"></source>
           </video>
           <CloseIcon
-            sx={{ top: "-45vh", position: "relative", right: "7vw" }}
+            sx={close}
             onClick={() => {
               setshow(false);
             }}

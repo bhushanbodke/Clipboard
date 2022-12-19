@@ -12,6 +12,7 @@ import "./files.css";
 import Loading from "./Loading";
 import GoBottom from "./GoBottom";
 import FileMap from "./FileMap";
+import { display } from "@mui/system";
 
 const Files = () => {
   let [AllFiles, setAllFiles] = useState([]);
@@ -24,7 +25,7 @@ const Files = () => {
   let [showpreview, setshowpreview] = useState(false);
   let [Fileurl, setFileurl] = useState("");
   let [Loaded, setLoaded] = useState(false);
-  let [type, settype] = useState('');
+  let [type, settype] = useState("");
   let [showalert, setshowalert] = useState("");
   let { authtoken } = useContext(LoginContext);
   let { user } = useContext(LoginContext);
@@ -145,6 +146,18 @@ const Files = () => {
     }
   }
 
+  function uploadPreview() {
+    if (File && FileType.split("/")[0] === "image") {
+      return <img className="uploadimg" src={URL.createObjectURL(File)} />;
+    } else if (File && FileType.split("/")[0] === "video") {
+      return (
+        <video controls autoPlay>
+          <source src={URL.createObjectURL(File)} type="video/mp4"></source>
+        </video>
+      );
+    }
+  }
+
   const button = {
     backgroundColor: "#66fcf1",
     color: "black",
@@ -157,25 +170,6 @@ const Files = () => {
     },
   };
 
-  const pagestyle = {
-    width: "30vw",
-    height: "40vh",
-    position: "fixed",
-    top: "20vh",
-    color: "#66fcf1",
-    backgroundColor: "#393f4d",
-    border: "solid 5px #66fcf1",
-    borderRadius: "10px",
-    left: "25vw",
-    paddingLeft: "5vh",
-    paddingRight: "10vh",
-    paddingTop: "5vh",
-    paddingBottom: "10vh",
-    ["@media (max-width:600px)"]: {
-      left: "5vw",
-      width: "55vw",
-    },
-  };
   let styleprogress = { width: percent.toString() + "%" };
 
   return (
@@ -189,7 +183,7 @@ const Files = () => {
             fileurl={Fileurl}
             show={showpreview}
             setshow={setshowpreview}
-            type = {type}
+            type={type}
           />
           {ShowAlertBar()}
           {ServerError()}
@@ -206,7 +200,7 @@ const Files = () => {
                   file={file}
                   setfileurl={setFileurl}
                   setshow={setshowpreview}
-                  settype = {settype}
+                  settype={settype}
                 />
               ))}
             </div>
@@ -215,73 +209,73 @@ const Files = () => {
             id="paper"
             style={showPaper ? { display: "block" } : { display: "none" }}
           >
-            <Paper elevation={10} sx={pagestyle}>
+            <div className="FileSelect">
               <CloseIcon
                 sx={{
                   paddingLeft: "30vw",
                   ["@media (max-width:600px)"]: {
-                    paddingLeft: "60vw",
+                    paddingLeft: "80vw",
                   },
                 }}
                 onClick={() => setshowPaper(false)}
               />
-              <div style={{ width: "50vw" }}>
+              <div className="selectedFile">
+                <div id="ImagefilePreview">{uploadPreview()}</div>
                 <div>
-                  <b>FileName :</b> {FileName}
+                  <div>
+                    <b>FileName :</b> {FileName}
+                  </div>
+                  <div>
+                    <b>FileType :</b> {FileType}
+                  </div>
+                  <div>
+                    <b>Size :</b>{" "}
+                    {FileSize ? (FileSize / 1000000).toFixed(2) : ""}
+                    {FileSize ? <span> Mb</span> : ""}
+                  </div>
                 </div>
-                <p />
-                <div>
-                  <b>FileType :</b> {FileType}
-                </div>
-                <p />
+                <div className="fileupload">
+                  <form
+                    action=""
+                    method="post"
+                    onSubmit={(e) => {
+                      UploadFile(e);
+                      File ? setshowPaper(false) : console.log(true);
+                      window.scrollTo({
+                        top: document.documentElement.scrollHeight,
+                        behavior: "smooth",
+                      });
+                    }}
+                  >
+                    <input
+                      type="file"
+                      id="file"
+                      onChange={(e) => updateFiles(e)}
+                      accept="/*"
+                      hidden
+                    />
 
-                <div>
-                  <b>Size :</b>{" "}
-                  {FileSize ? (FileSize / 1000000).toFixed(2) : ""}
-                  {FileSize ? <span> Mb</span> : ""}
+                    <Button
+                      sx={button}
+                      variant="contained"
+                      startIcon={<AttachFileIcon />}
+                    >
+                      <label htmlFor="file">Select File</label>
+                    </Button>
+
+                    <p />
+                    <Button
+                      sx={button}
+                      variant="contained"
+                      type="submit"
+                      startIcon={<Upload />}
+                    >
+                      Send
+                    </Button>
+                  </form>
                 </div>
               </div>
-              <div className="fileupload">
-                <form
-                  action=""
-                  method="post"
-                  onSubmit={(e) => {
-                    UploadFile(e);
-                    File ? setshowPaper(false) : console.log(true);
-                    window.scrollTo({
-                      top: document.documentElement.scrollHeight,
-                      behavior: "smooth",
-                    });
-                  }}
-                >
-                  <input
-                    type="file"
-                    id="file"
-                    onChange={(e) => updateFiles(e)}
-                    accept="/*"
-                    hidden
-                  />
-
-                  <Button
-                    sx={button}
-                    variant="contained"
-                    startIcon={<AttachFileIcon />}
-                  >
-                    <label htmlFor="file">Select File</label>
-                  </Button>
-
-                  <p />
-                  <Button
-                    sx={button}
-                    variant="contained"
-                    type="submit"
-                    startIcon={<Upload />}
-                  >
-                    Send
-                  </Button>
-                </form>
-              </div>
-            </Paper>
+            </div>
           </div>
           <Navigation
             setshowPaper={setshowPaper}

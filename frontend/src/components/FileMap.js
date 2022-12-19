@@ -6,6 +6,7 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { useContext } from "react";
 import axios from "axios";
 import LoginContext from "../context/context";
+import LazyLoad from "react-lazy-load";
 import "./files.css";
 
 const FileMap = ({ file, setfileurl, settype, setshow }) => {
@@ -50,11 +51,13 @@ const FileMap = ({ file, setfileurl, settype, setshow }) => {
     return (
       <div key={file.id} id={file.id} className="Fileimage">
         <div>
-          <img
-            className="img"
-            src={backendUrl + file.Files}
-            onClick={() => handlepreview(file)}
-          />
+          <LazyLoad>
+            <img
+              className="img"
+              src={backendUrl + file.Files}
+              onClick={() => handlepreview(file)}
+            />
+          </LazyLoad>
         </div>
         <div>
           <div style={{ paddingTop: "1vh" }}>
@@ -91,9 +94,11 @@ const FileMap = ({ file, setfileurl, settype, setshow }) => {
     return (
       <div key={file.id} id={file.id} className="File video">
         <div>
-          <video width="350" height="170" controls>
-            <source src={backendUrl + file.Files} type="video/mp4"></source>
-          </video>
+          <LazyLoad>
+            <video width="350" height="170" controls>
+              <source src={backendUrl + file.Files} type="video/mp4"></source>
+            </video>
+          </LazyLoad>
         </div>
         <div>
           <div>{file.fileName}</div>
