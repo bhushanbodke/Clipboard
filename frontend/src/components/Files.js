@@ -12,15 +12,18 @@ import "./files.css";
 import Loading from "./Loading";
 import GoBottom from "./GoBottom";
 import FileMap from "./FileMap";
-import { display } from "@mui/system";
 
 const Files = () => {
-  let [AllFiles, setAllFiles] = useState([]);
+  let [AllFiles, setAllFiles] = useState(
+    localStorage.getItem("files")
+      ? JSON.parse(localStorage.getItem("files"))
+      : []
+  );
   let [File, setFile] = useState();
   let [FileType, setFileType] = useState();
   let [FileName, setFileName] = useState();
   let [FileSize, setFileSize] = useState(0);
-  let [serverError, setserverError] = useState(false);
+  let [serverError, setserverError] = useState(true);
   let [showPaper, setshowPaper] = useState(false);
   let [showpreview, setshowpreview] = useState(false);
   let [Fileurl, setFileurl] = useState("");
@@ -46,10 +49,10 @@ const Files = () => {
       .get(backendUrl + "/files", header)
       .catch((error) => {
         setLoaded(true);
-        setserverError(true);
-        return;
+        throw error;
       })
       .then((response) => {
+        setserverError(false);
         setAllFiles(response.data);
         localStorage.setItem("files", JSON.stringify(response.data));
       })
@@ -108,7 +111,7 @@ const Files = () => {
     if (serverError) {
       return (
         <div className="servererror title">
-          <h2>Server is Offline</h2>
+          <div>Cannot not connect to server</div>
         </div>
       );
     } else {
@@ -166,7 +169,7 @@ const Files = () => {
       backgroundColor: "#3fb0ac",
     },
     ["@media(max-width:600px)"]: {
-      width: "65vw",
+      width: "75vw",
     },
   };
 
@@ -188,7 +191,7 @@ const Files = () => {
           {ShowAlertBar()}
           {ServerError()}
           <div className="title">
-            <h2>Files</h2>
+            <div>Files</div>
           </div>
           <div
             className="filesbody"
@@ -212,9 +215,12 @@ const Files = () => {
             <div className="FileSelect">
               <CloseIcon
                 sx={{
-                  paddingLeft: "30vw",
+                  position: "absolute",
+                  marginLeft: "32.5vw",
+                  marginTop: "2vh",
                   ["@media (max-width:600px)"]: {
-                    paddingLeft: "80vw",
+                    marginLeft: "70vw",
+                    fontSize: "40px",
                   },
                 }}
                 onClick={() => setshowPaper(false)}

@@ -18,7 +18,7 @@ const Main = (props) => {
   let { authtoken } = useContext(LoginContext);
   let { backendUrl } = useContext(LoginContext);
   let { logged } = useContext(LoginContext);
-  let [serverError, setserverError] = useState(false);
+  let [serverError, setserverError] = useState(true);
   let [showPaper, setshowPaper] = useState(false);
   let [Loaded, setLoaded] = useState(false);
   let [AllMessages, setMessages] = useState(
@@ -35,21 +35,18 @@ const Main = (props) => {
 
   // mui style override
   const pagestyle = {
-    width: "40vw",
-    height: "50vh",
+    width: "45vw",
+    height: "65vh",
     position: "fixed",
-    top: "20vh",
+    top: "15vh",
     left: "25vw",
     backgroundColor: "#1d1e22",
     border: "solid 5px #feda6a",
-    paddingLeft: "8vh",
-    paddingRight: "10vh",
-    paddingTop: "2vh",
-    paddingBottom: "10vh",
     ["@media (max-width:600px)"]: {
+      marginTop: "0%",
       left: "5vw",
-      width: "50vw",
-      height: "40vh",
+      width: "90%",
+      height: "65%",
     },
   };
 
@@ -59,15 +56,11 @@ const Main = (props) => {
       .get(backendUrl + "/msg", header)
       .catch((error) => {
         setLoaded(true);
-        if (AllMessages.length === 0) {
-          setserverError(true);
-          throw error;
-        } else {
-          throw error;
-        }
+        throw error;
       })
       .then((response) => {
         setMessages(response.data);
+        setserverError(false);
         localStorage.setItem("messages", JSON.stringify(response.data));
         localStorage.setItem("No", response.data.length);
         setLoaded(true);
@@ -104,7 +97,7 @@ const Main = (props) => {
     if (serverError) {
       return (
         <div className="servererror title">
-          <h2>Server is Offline</h2>
+          <div>Cannot connect to server</div>
         </div>
       );
     } else {
@@ -144,7 +137,7 @@ const Main = (props) => {
             </div>
           ) : null}
           <div className="title">
-            <h2>Clipboard</h2>
+            <div style={{ fontSize: "45px" }}>Clipboard</div>
           </div>
           {ServerError()}
           <div
@@ -188,9 +181,14 @@ const Main = (props) => {
               </div>
               <CloseIcon
                 sx={{
-                  paddingLeft: "40vw",
+                  color: "#feda6a",
+                  position: "absolute",
+                  marginLeft: "94%",
+                  marginTop: "-4%",
+                  fontSize: "25px",
                   ["@media (max-width:600px)"]: {
-                    paddingLeft: "55vw",
+                    marginLeft: "88%",
+                    fontSize: "35px",
                   },
                 }}
                 onClick={() => setshowPaper(false)}
@@ -217,9 +215,13 @@ const Main = (props) => {
                 <p />
                 <Button
                   sx={{
+                    marginLeft: "5%",
                     backgroundColor: "#feda6a",
                     color: "black",
                     width: "40vw",
+                    ["@media (max-width:600px)"]: {
+                      width: "88%",
+                    },
                   }}
                   variant="contained"
                   type="submit"

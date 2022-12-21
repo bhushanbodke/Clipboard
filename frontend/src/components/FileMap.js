@@ -31,7 +31,7 @@ const FileMap = ({ file, setfileurl, settype, setshow }) => {
     },
   };
   const icon = {
-    color: "black",
+    color: "#393f4d",
   };
 
   function DelFile(id) {
@@ -42,6 +42,7 @@ const FileMap = ({ file, setfileurl, settype, setshow }) => {
   }
 
   function handlepreview(file) {
+    document.querySelector(".filesbody").style.filter = "blur(5px)";
     let url = backendUrl + file.Files;
     setshow(true);
     setfileurl(url);
@@ -59,13 +60,16 @@ const FileMap = ({ file, setfileurl, settype, setshow }) => {
             />
           </LazyLoad>
         </div>
-        <div>
-          <div style={{ paddingTop: "1vh" }}>
+        <div className="FileInfo">
+          <div>
             <div>
               <b>File Name :</b> {file.fileName}
             </div>
             <div>
               <b>File Size :</b> {(file.size / 1000000).toFixed(2)} Mb
+            </div>
+            <div>
+              <b>Uploaded On :</b> {file.sendTime}
             </div>
           </div>
           <div>
@@ -105,6 +109,9 @@ const FileMap = ({ file, setfileurl, settype, setshow }) => {
           <div>
             <b>File Size :</b> {(file.size / 1000000).toFixed(2)} Mb
           </div>
+          <div>
+            <b>Uploaded On :</b> {file.sendTime}
+          </div>
           <a href={backendUrl + file.Files}>
             <Button sx={pill1} variant="contained">
               <DownloadIcon sx={icon} />
@@ -140,6 +147,9 @@ const FileMap = ({ file, setfileurl, settype, setshow }) => {
         </div>
         <div>
           <b>File Type :</b> {file.filetype}
+        </div>
+        <div>
+          <b>Uploaded On :</b> {file.sendTime}
         </div>
         <a href={backendUrl + file.Files}>
           <Button sx={pill} variant="contained">

@@ -15,7 +15,9 @@ const Navigation = ({ setshowPaper, showPaper, page }) => {
   let { logout } = useContext(LoginContext);
   let [is_pressed, setpressed] = useState(false);
   let [darkTheme, setdarkTheme] = useState(
-    JSON.parse(localStorage.getItem("theme"))
+    localStorage.getItem("darktheme")
+      ? JSON.parse(localStorage.getItem("darktheme"))
+      : false
   );
   console.log(document.querySelector("body").scrollTop);
   useEffect(() => {
@@ -32,14 +34,17 @@ const Navigation = ({ setshowPaper, showPaper, page }) => {
   }, []);
   useEffect(() => {
     let r = document.querySelector(":root");
-    if (!darkTheme) {
-      r.style.setProperty("--card-background", "white");
-      r.style.setProperty("--text-color", "black");
-    } else {
+    // if Dark theme
+    if (darkTheme) {
       r.style.setProperty("--card-background", "black");
       r.style.setProperty("--text-color", "white");
+      r.style.setProperty("--background", "#393f4d");
+    } else {
+      r.style.setProperty("--card-background", "white");
+      r.style.setProperty("--text-color", "black");
+      r.style.setProperty("--background", "#c7bfab");
     }
-    localStorage.setItem("theme", darkTheme);
+    localStorage.setItem("darktheme", darkTheme);
   }, [darkTheme]);
 
   let navigate = useNavigate();
@@ -54,32 +59,33 @@ const Navigation = ({ setshowPaper, showPaper, page }) => {
       >
         <div className="icon">
           <AddCircleOutlineIcon />
+          <span className="label">Add</span>
         </div>
-        <div className="label">Add</div>
       </div>
       <div className="item" id="Files" onClick={() => navigate("/files")}>
         <div className="icon">
           <FolderIcon />
+          <span className="label">Files</span>
         </div>
-        <div className="label">Files</div>
       </div>
       <div className="item" id="clipboard" onClick={() => navigate("/")}>
         <div className="icon">
           <CommentIcon />
+
+          <span className="label">Clipboard</span>
         </div>
-        <div className="label">Clipboard</div>
       </div>
       <div className="item" onClick={() => setdarkTheme(!darkTheme)}>
         <div className="icon">
           {darkTheme ? <LightModeIcon /> : <DarkModeIcon />}
+          <span className="label">{darkTheme ? "LightMode" : "DarkTheme"}</span>
         </div>
-        <div className="label">{darkTheme ? "LightMode" : "DarkTheme"}</div>
       </div>
       <div className="item" onClick={() => logout()}>
         <div className="icon">
           <LogoutIcon />
+          <span className="label">Logout</span>
         </div>
-        <div className="label">Logout</div>
       </div>
     </div>
   );

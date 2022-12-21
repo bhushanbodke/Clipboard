@@ -19,7 +19,7 @@ input {
   padding-top: 2vh;
   height: 100%;
   font-size: 20px;
-  color: black;
+  color: var(--card-background);
 }
 input:focus {
   color: rgb(52, 51, 51);
@@ -34,16 +34,16 @@ input:focus {
   background-color: rgb(255, 183, 110);
   padding-bottom: 5vh;
   margin-top: -2px;
-  color: #393f4d;
+  color: var(--card-background);
 }
 .login {
-  background-color: #393f4d;
-  width: 60vw;
+  background-color: var(--card-background);
+  width: 45vw;
   text-align: center;
-  height: 50vw;
-  margin-left: 20vw;
-  margin-top: 15vh;
-  border-radius: 10px;
+  height: 80%;
+  margin-left: 27vw;
+  margin-top: 12vh;
+  border-radius: 20px;
   border: solid 5px;
   border-color: rgb(255, 183, 110);
 }
@@ -55,8 +55,11 @@ input:focus {
     border-radius: 50px;
     margin-top: 2vh;
   }
+  .loginform {
+    margin-top: 6vh;
+  }
   .login {
-    height: 120vw;
+    height: 60%;
     margin-left: 4vw;
     width: 90vw;
   }
@@ -67,7 +70,7 @@ input:focus {
     position: fixed;
     left: 0;
     right: 0;
-    height: 5vh;
+    height: 8vh;
   }
   .alert1 > .div2 {
     padding-top: 2vh;

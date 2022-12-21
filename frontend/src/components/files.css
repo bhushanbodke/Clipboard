@@ -10,30 +10,42 @@
   max-height: 90vh;
   margin: 0 auto;
 }
+.fileupload {
+  bottom: 15px;
+  position: absolute;
+}
 .FileContainer {
   background-color: var(--card-background);
   border: 3px solid var(--primary);
   border-radius: 5px;
   display: flex;
   align-items: center;
-  margin-top: -20vh;
+  margin-top: -12vh;
   width: 60vw;
   margin-left: 20vw;
-  height: 115vh;
+  height: 100vh;
   z-index: 2;
   animation: growin 0.2s;
   position: fixed;
+}
+.FileInfo {
+  margin-top: 25px;
+}
+.FileInfo div {
+  margin-top: 5px;
 }
 .header {
   display: flex;
 }
 .servererror {
-  margin-top: 10.5vh;
+  height: 4vh;
+  margin-top: 9vh;
   background-color: rgb(252, 92, 92);
+  font-size: 20px;
 }
 .File {
   animation: growin 0.2s;
-  height: 30vh;
+  height: 100%;
   padding-top: 5vh;
   text-align: center;
   background-color: var(--card-background);
@@ -42,7 +54,7 @@
 }
 .Fileimage {
   animation: growin 0.2s;
-  height: 30vh;
+  height: 100%;
   padding-top: 1vh;
   text-align: center;
   background-color: var(--card-background);
@@ -53,7 +65,7 @@
 }
 .img {
   max-width: 15vw;
-  max-height: 28vh;
+  max-height: 31vh;
 }
 .filesbody {
   margin-top: 12vh;
@@ -98,7 +110,7 @@ a {
 }
 .video {
   padding-top: 1vh;
-  height: 41vh;
+  height: 100%;
 }
 .progress-bar__container {
   border-radius: 5px;
@@ -122,13 +134,13 @@ a {
 }
 .FileSelect {
   animation: growin 0.2s;
-  width: 30vw;
+  width: 38vw;
   height: 70vh;
   position: fixed;
   top: 10vh;
-  color: #66fcf1;
-  background-color: #393f4d;
-  border: solid 5px #66fcf1;
+  color: var(--primary);
+  background-color: var(--card-background);
+  border: solid 5px var(--primary);
   border-radius: 10px;
   left: 30vw;
   padding-left: 5vh;
@@ -152,10 +164,10 @@ a {
 }
 @media only screen and (max-width: 600px) {
   .FileContainer {
-    margin-top: 5vh;
+    margin-top: 2vh;
     width: 89vw;
     margin-left: 6vw;
-    height: 65vh;
+    height: 70%;
   }
   .FileContainer > img {
     max-height: 90vh;
@@ -178,8 +190,8 @@ a {
   }
   .FileSelect {
     left: 5vw;
-    width: 65vw;
-    height: 62vh;
+    width: 89vw;
+    height: 80%;
     padding-left: 3vw;
   }
   .selectedFile {
@@ -189,7 +201,6 @@ a {
   .File {
     margin-top: 10px;
     margin-bottom: 10px;
-    height: 20vh;
   }
   .img {
     max-width: 27vw;
@@ -198,16 +209,16 @@ a {
   }
   .Fileimage {
     margin-bottom: 10px;
-    height: 20vh;
+    height: 100%;
   }
   .filesbody {
-    margin-top: 8vh;
+    margin-top: 10vh;
   }
   .servererror {
-    margin-top: 7.5vh;
+    text-align: center;
   }
   .video {
     padding-top: 1vh;
-    height: 31vh;
+    height: 100%;
   }
 }

@@ -3,12 +3,12 @@ import CloseIcon from "@mui/icons-material/Close";
 
 const FilePreview = ({ fileurl, type, show, setshow }) => {
   let close = {
-    top: "-45vh",
-    position: "relative",
-    right: "7vw",
+    position: "absolute",
+    left: "93%",
+    top: "1%",
+    fontSize: "35px",
     ["@media(max-width:600px)"]: {
-      top: "-30vh",
-      right: "0",
+      fontSize: "25px",
     },
   };
   if (show) {
@@ -20,6 +20,7 @@ const FilePreview = ({ fileurl, type, show, setshow }) => {
             sx={close}
             onClick={() => {
               setshow(false);
+              document.querySelector(".filesbody").style.filter = "none";
             }}
           />
         </div>

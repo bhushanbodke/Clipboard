@@ -13,9 +13,11 @@ h2 {
   color: var(--text-color);
 }
 textarea {
+  color: #feda6a;
+  margin-left: 4%;
   border: solid 5px #feda6a;
   border-radius: 15px;
-  font-size: 16px;
+  font-size: 20px;
   text-indent: 20px;
   width: 40vw;
   background-color: var(--card-background);
@@ -37,10 +39,6 @@ textarea:focus {
   background-color: var(--background);
   color: var(--text-color);
 }
-.servererror{
-  margin-top: 10.5vh;
-  background-color: rgb(252,92,92);
-}
 .alert {
   position: fixed;
   left: 0;
@@ -60,6 +58,7 @@ textarea:focus {
   .msgs {
     grid-template-columns: 1fr;
     padding: 2vw;
+    padding-top: 3vh;
     font-size: smaller;
   }
   .alert {
@@ -67,7 +66,7 @@ textarea:focus {
   }
   textarea {
     width: 77vw;
-    margin-left: -54px;
+    margin-left: 5%;
   }
 }
 
