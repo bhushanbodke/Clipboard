@@ -1,6 +1,7 @@
 import "./board.css";
 import React, { useContext, useEffect } from "react";
 import { Button, Paper } from "@mui/material";
+import RefreshIcon from "@mui/icons-material/Refresh";
 import LoginContext from "../context/context";
 import { useState } from "react";
 import axios from "axios";
@@ -96,8 +97,14 @@ const Main = (props) => {
   function ServerError() {
     if (serverError) {
       return (
-        <div className="servererror title">
+        <div
+          onClick={() => {
+            window.location.reload();
+          }}
+          className="servererror title"
+        >
           <div>Cannot connect to server</div>
+          <RefreshIcon sx={{ position: "absolute", top: "2px", left: "36%" }} />
         </div>
       );
     } else {

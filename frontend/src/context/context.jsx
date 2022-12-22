@@ -30,10 +30,33 @@ export const Context = ({ children }) => {
   const [backendUrl, setbackendUrl] = useState("http://192.168.1.4:8000");
   const [logged, setlogged] = useState(false);
 
-  async function login(e) {
-    console.log(e.target.Username.value);
-    console.log(e.target.Password.value);
+  async function register(e) {
+    e.preventDefault();
+    let username = e.target.Username.value;
+    let password1 = e.target.Password.value;
+    let password2 = e.target.PasswordConfirmation.value;
+    if (password1 != password2) {
+      seterror(true);
+      document.querySelector(".div2").innerHTML = "Passwords doesn't match";
+    }
+    axios
+      .post(backendUrl + "/register", {
+        username: username,
+        password: password1,
+        password2: password2,
+      })
+      .catch((error) => {
+        seterror(true);
+      })
+      .then((response) => {
+        seterror(true);
+        document.querySelector(".div2").innerHTML =
+          "Registered sucessfully go to login page";
+        document.querySelector(".div2").style.backgroundColor = "#6bfc5b";
+      });
+  }
 
+  async function login(e) {
     e.preventDefault();
     axios
       .post(backendUrl + "/api/token/", {
@@ -88,12 +111,12 @@ export const Context = ({ children }) => {
     updatetoken: updatetoken,
     username: username,
     logout: logout,
-    loading: loading,
     authtoken: authtoken,
     error: error,
     logged: logged,
     setlogged: setlogged,
     backendUrl: backendUrl,
+    register: register,
   };
 
   return (

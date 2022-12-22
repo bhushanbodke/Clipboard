@@ -1,11 +1,12 @@
-import React, { useContext } from "react";
+import React from "react";
+import { useContext } from "react";
 import "./login.css";
 import { Button } from "@mui/material";
-import LoginContext from "../context/context";
 import { Link } from "react-router-dom";
+import LoginContext from "../context/context";
 
-const Login = () => {
-  let { login } = useContext(LoginContext);
+const Register = () => {
+  let { register } = useContext(LoginContext);
   let { error } = useContext(LoginContext);
   const style = {
     backgroundColor: "#3fb0ac",
@@ -20,12 +21,11 @@ const Login = () => {
       width: "75%",
     },
   };
-
   return (
     <>
       <div style={{ width: "100%", height: "100%", overflowY: "hidden" }}>
         <div
-          className="login"
+          className="login reg"
           style={
             JSON.parse(localStorage.getItem("theme"))
               ? { backgroundColor: "#393f4d" }
@@ -40,13 +40,12 @@ const Login = () => {
               Error while logging in <strong>check username / password</strong>
             </div>
           </div>
-          <div className="ti">Login</div>
+          <div className="ti">Register</div>
           <form
-            className="loginform"
+            className="loginform register"
             id="loginform"
-            action=""
             onSubmit={(e) => {
-              login(e);
+              register(e);
             }}
           >
             <input
@@ -55,23 +54,27 @@ const Login = () => {
               placeholder="  Username"
               name="Username"
             />
-            <p />
             <input
               type="password"
               label="Password"
               placeholder="  Password"
               name="Password"
             />
-            <p />
+            <input
+              type="password"
+              label="PasswordConfirmation"
+              placeholder="Confirm Password"
+              name="PasswordConfirmation"
+            />
             <Button type="submit" sx={style} variant="contained">
-              Login
+              Register
             </Button>
           </form>
           <p />
           <h4>
-            Don't have an account ?
-            <Link to="/register">
-              <span style={{ color: "blue" }}>Register</span>
+            Alerady have account ?{" "}
+            <Link to="/login">
+              <span style={{ color: "blue" }}>login</span>
             </Link>
           </h4>
         </div>
@@ -80,4 +83,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;

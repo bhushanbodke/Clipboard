@@ -4,6 +4,7 @@ import { Button, Paper } from "@mui/material";
 import Upload from "@mui/icons-material/Upload";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import { useState, useContext, useEffect } from "react";
+import RefreshIcon from "@mui/icons-material/Refresh";
 import axios from "axios";
 import FilePreview from "./FilePreview";
 import LoginContext from "../context/context";
@@ -110,8 +111,14 @@ const Files = () => {
   function ServerError() {
     if (serverError) {
       return (
-        <div className="servererror title">
+        <div
+          className="servererror title"
+          onClick={() => {
+            window.location.reload();
+          }}
+        >
           <div>Cannot not connect to server</div>
+          <RefreshIcon sx={{ position: "absolute", top: "2px", left: "36%" }} />
         </div>
       );
     } else {

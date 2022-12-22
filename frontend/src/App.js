@@ -5,6 +5,7 @@ import Login from "./components/Login";
 import { useContext, useEffect } from "react";
 import Files from "./components/Files";
 import Board from "./components/Board";
+import Register from "./components/Register";
 
 function App() {
   let { username } = useContext(LoginContext);
@@ -20,6 +21,7 @@ function App() {
         <Route path="/login" element={username ? <Board /> : <Login />} />
         <Route path="/files" element={username ? <Files /> : <Login />} />
         <Route path="" element={username ? <Board /> : <Login />} />
+        <Route path="/register" element={<Register />} />
       </Routes>
     </>
   );

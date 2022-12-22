@@ -1,17 +1,17 @@
 input {
   width: 40vw;
-  height: 6vh;
+  height: 8vh;
   margin-top: 2vh;
   font-size: 20px;
-  border-radius: 50px;
+  border-radius: 10px;
   text-indent: 20px;
-  border: solid 5px rgb(255, 183, 110);
+  border: solid 5px #3fb0ac;
 }
 .alert1 {
   position: fixed;
   left: 0;
   right: 0;
-  height: 5vh;
+  height: 8vh;
   top: 0;
   text-align: center;
 }
@@ -23,7 +23,8 @@ input {
 }
 input:focus {
   color: rgb(52, 51, 51);
-  border: solid 5px rgb(254, 140, 26);
+  border: solid 5px #2f8582;
+  outline: none;
 }
 .loginform {
   margin-top: 10vh;
@@ -31,10 +32,15 @@ input:focus {
 .ti {
   font-size: 40px;
   padding-top: 5vh;
-  background-color: rgb(255, 183, 110);
+  background-color: #3fb0ac;
   padding-bottom: 5vh;
   margin-top: -2px;
   color: var(--card-background);
+  border-top-right-radius: 20px;
+  border-top-left-radius: 20px;
+}
+.register {
+  margin-top: 5vh;
 }
 .login {
   background-color: var(--card-background);
@@ -44,24 +50,24 @@ input:focus {
   margin-left: 27vw;
   margin-top: 12vh;
   border-radius: 20px;
-  border: solid 5px;
-  border-color: rgb(255, 183, 110);
+  color: var(--text-color-secondary);
 }
 @media only screen and (max-width: 600px) {
   input {
     width: 70vw;
-    height: 5vh;
     border-radius: 10px;
-    border-radius: 50px;
     margin-top: 2vh;
   }
   .loginform {
-    margin-top: 6vh;
+    margin-top: 2vh;
   }
   .login {
-    height: 60%;
+    height: 65%;
     margin-left: 4vw;
     width: 90vw;
+  }
+  .reg {
+    height: 75%;
   }
   form {
     margin-top: 5vh;

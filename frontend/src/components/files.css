@@ -38,11 +38,12 @@
   display: flex;
 }
 .servererror {
-  height: 4vh;
+  height: 5vh;
   margin-top: 9vh;
   background-color: rgb(252, 92, 92);
   font-size: 20px;
 }
+
 .File {
   animation: growin 0.2s;
   height: 100%;
