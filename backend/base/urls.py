@@ -9,6 +9,7 @@ urlpatterns = [
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('',list),
     path('files',FilesView,name = 'files'),
+    path('register',Register,name = 'register'),
     path('addfiles',PostFiles,name = 'addfiles'),
     path('msg',MessageView,name = 'msg'),
     path('addmsg',MessagePost,name = 'addmsg'),

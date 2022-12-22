@@ -20,18 +20,28 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
 
+# --------------------- Register user ------------
+@api_view(["POST"])
+def Register(request):
+    user = UserSerializer(data = request.data)
+    if user.is_valid():
+        user.save()
+    print(user.errors)    
+    return Response("Sucesss")
+
+
 # ---------------------- Files View ----------------------
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def FilesView(request):
     files = Files.objects.filter(sender = request.user)
-    serialize = FilesSerialzer(files,many = True)
+    serialize = FilesSerializer(files,many = True)
     return Response(serialize.data)
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def PostFiles(request):
-    files = FilesSerialzer(data = request.data)
+    files = FilesSerializer(data = request.data)
     if files.is_valid():
         files.save()
     print(files.errors)
@@ -51,7 +61,7 @@ def FilesDelete(request,pk):
 @permission_classes([IsAuthenticated])
 def MessageView(request):
     messages = Messages.objects.filter(owner = request.user)
-    serialize = MessageSerialzer(messages,many = True)
+    serialize = MessageSerializer(messages,many = True)
     return Response(serialize.data)
 
 @api_view(['GET'])
@@ -70,7 +80,7 @@ def MessageDelete(request,pk):
 @api_view(['POST'])
 def MessagePost(request):
     print(request.data)
-    message = MessageSerialzer(data = request.data)
+    message = MessageSerializer(data = request.data)
     if message.is_valid():
         message.save()
     return Response("sucess")
