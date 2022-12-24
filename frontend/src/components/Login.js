@@ -1,12 +1,9 @@
-import React, { useContext } from "react";
+import React from "react";
 import "./login.css";
 import { Button } from "@mui/material";
-import LoginContext from "../context/context";
 import { Link } from "react-router-dom";
 
-const Login = () => {
-  let { login } = useContext(LoginContext);
-  let { error } = useContext(LoginContext);
+const Login = ({ login, error }) => {
   const style = {
     backgroundColor: "#3fb0ac",
     color: "#393f4d",
@@ -80,4 +77,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default React.memo(Login);

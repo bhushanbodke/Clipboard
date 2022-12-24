@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import LogoutIcon from "@mui/icons-material/Logout";
@@ -6,13 +6,11 @@ import LightModeIcon from "@mui/icons-material/LightMode";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import FolderIcon from "@mui/icons-material/Folder";
 import CommentIcon from "@mui/icons-material/Comment";
-import LoginContext from "../context/context";
 import "./navigation.css";
 import { useEffect } from "react";
 import { useState } from "react";
 
-const Navigation = ({ setshowPaper, showPaper, page }) => {
-  let { logout } = useContext(LoginContext);
+const Navigation = ({ setshowPaper, showPaper, page, logout }) => {
   let [is_pressed, setpressed] = useState(false);
   let [darkTheme, setdarkTheme] = useState(
     localStorage.getItem("darktheme")
@@ -23,11 +21,11 @@ const Navigation = ({ setshowPaper, showPaper, page }) => {
   useEffect(() => {
     let r = document.querySelector(":root");
     if (page == "clipboard") {
-      document.getElementById(page).style.color = "#feda6a";
+      document.getElementById(page).style.backgroundColor = "var(--opac)";
       r.style.setProperty("--primary", "#feda6a");
       r.style.setProperty("--secon", "#393f4d");
     } else {
-      document.getElementById(page).style.color = "aqua";
+      document.getElementById(page).style.backgroundColor = "var(--opac)";
       r.style.setProperty("--primary", "#3fb0ac");
       r.style.setProperty("--secon", "#00a59f");
     }
@@ -36,13 +34,15 @@ const Navigation = ({ setshowPaper, showPaper, page }) => {
     let r = document.querySelector(":root");
     // if Dark theme
     if (darkTheme) {
-      r.style.setProperty("--card-background", "black");
+      r.style.setProperty("--card-background", "#393f4d");
+      r.style.setProperty("--opac", "rgba(250, 235, 215, 0.3)");
       r.style.setProperty("--text-color", "white");
-      r.style.setProperty("--background", "#393f4d");
+      r.style.setProperty("--background", "#212121");
     } else {
       r.style.setProperty("--card-background", "white");
+      r.style.setProperty("--opac", "rgba(57, 55, 53, 0.3)");
       r.style.setProperty("--text-color", "black");
-      r.style.setProperty("--background", "#c7bfab");
+      r.style.setProperty("--background", "grey");
     }
     localStorage.setItem("darktheme", darkTheme);
   }, [darkTheme]);
@@ -91,4 +91,4 @@ const Navigation = ({ setshowPaper, showPaper, page }) => {
   );
 };
 
-export default Navigation;
+export default React.memo(Navigation);

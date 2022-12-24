@@ -3,11 +3,8 @@ import { useContext } from "react";
 import "./login.css";
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
-import LoginContext from "../context/context";
 
-const Register = () => {
-  let { register } = useContext(LoginContext);
-  let { error } = useContext(LoginContext);
+const Register = (register, error, seterror) => {
   const style = {
     backgroundColor: "#3fb0ac",
     color: "#393f4d",
@@ -74,7 +71,9 @@ const Register = () => {
           <h4>
             Alerady have account ?{" "}
             <Link to="/login">
-              <span style={{ color: "blue" }}>login</span>
+              <span style={{ color: "blue" }} onClick={() => seterror(false)}>
+                login
+              </span>
             </Link>
           </h4>
         </div>
@@ -83,4 +82,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default React.memo(Register);

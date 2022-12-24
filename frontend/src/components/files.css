@@ -17,7 +17,7 @@
 .FileContainer {
   background-color: var(--card-background);
   border: 3px solid var(--primary);
-  border-radius: 5px;
+  border-radius: 15px;
   display: flex;
   align-items: center;
   margin-top: -12vh;
@@ -25,7 +25,7 @@
   margin-left: 20vw;
   height: 100vh;
   z-index: 2;
-  animation: growin 0.2s;
+  animation: growin 0.15s;
   position: fixed;
 }
 .FileInfo {
@@ -50,8 +50,8 @@
   padding-top: 5vh;
   text-align: center;
   background-color: var(--card-background);
-  border: solid #66fcf1 4px;
-  border-radius: 10px;
+  border: solid var(--primary) 3px;
+  border-radius: 5px;
 }
 .Fileimage {
   animation: growin 0.2s;
@@ -59,8 +59,8 @@
   padding-top: 1vh;
   text-align: center;
   background-color: var(--card-background);
-  border: solid #66fcf1 4px;
-  border-radius: 10px;
+  border: solid var(--primary) 3px;
+  border-radius: 5px;
   display: grid;
   grid-template-columns: 1fr 2fr;
 }
@@ -128,14 +128,14 @@ a {
   height: 2vh;
   background-color: var(--primary);
 }
-
 .selectedFile {
   width: 35vw;
   display: grid;
+  grid-template-columns: 1.5fr 1fr;
 }
 .FileSelect {
   animation: growin 0.2s;
-  width: 38vw;
+  width: 45vw;
   height: 70vh;
   position: fixed;
   top: 10vh;
@@ -152,12 +152,12 @@ a {
 #ImagefilePreview {
   display: flex;
   align-items: center;
-  max-height: 300px;
+  max-height: 800px;
 }
 #ImagefilePreview > img {
-  margin: 0 auto;
-  max-width: 60vw;
-  max-height: 50vh;
+  margin-top: 12px;
+  max-width: 20vw;
+  max-height: 65vh;
 }
 
 #ImagefilePreview > video {
@@ -197,6 +197,7 @@ a {
   }
   .selectedFile {
     width: 75vw;
+    display: block;
     padding-left: 2vw;
   }
   .File {

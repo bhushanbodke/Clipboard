@@ -1,3 +1,14 @@
+.deleteIcon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  margin-left: 42vw;
+  border-radius: 50px;
+}
+.deleteIcon:hover {
+  background-color: rgba(128, 128, 128, 0.5);
+}
 h2 {
   word-wrap: normal;
 }
@@ -35,10 +46,6 @@ textarea:focus {
   border-style: solid;
   border-width: 3px;
 }
-#root {
-  background-color: var(--background);
-  color: var(--text-color);
-}
 .alert {
   position: fixed;
   left: 0;
@@ -49,7 +56,7 @@ textarea:focus {
 }
 .alert > .div1 {
   padding-top: 2vh;
-  height: 100%;
+  height: 120%;
   font-size: 20px;
   color: var(--text-color-secondary);
 }
@@ -67,6 +74,9 @@ textarea:focus {
   textarea {
     width: 77vw;
     margin-left: 5%;
+  }
+  .deleteIcon {
+    margin-left: 75vw;
   }
 }
 

@@ -3,18 +3,17 @@ import CloseIcon from "@mui/icons-material/Close";
 import { Button, Paper } from "@mui/material";
 import Upload from "@mui/icons-material/Upload";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
-import { useState, useContext, useEffect } from "react";
+import { useState, useEffect } from "react";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import axios from "axios";
 import FilePreview from "./FilePreview";
-import LoginContext from "../context/context";
 import Navigation from "./Navigation";
 import "./files.css";
 import Loading from "./Loading";
 import GoBottom from "./GoBottom";
 import FileMap from "./FileMap";
 
-const Files = () => {
+const Files = ({ authtoken, backendUrl, logout, user }) => {
   let [AllFiles, setAllFiles] = useState(
     localStorage.getItem("files")
       ? JSON.parse(localStorage.getItem("files"))
@@ -31,10 +30,7 @@ const Files = () => {
   let [Loaded, setLoaded] = useState(false);
   let [type, settype] = useState("");
   let [showalert, setshowalert] = useState("");
-  let { authtoken } = useContext(LoginContext);
-  let { user } = useContext(LoginContext);
   let [percent, setpercent] = useState(0);
-  let { backendUrl } = useContext(LoginContext);
 
   useEffect(() => {
     GetFiles();
@@ -118,7 +114,16 @@ const Files = () => {
           }}
         >
           <div>Cannot not connect to server</div>
-          <RefreshIcon sx={{ position: "absolute", top: "2px", left: "36%" }} />
+          <RefreshIcon
+            sx={{
+              position: "absolute",
+              top: "2px",
+              left: "36%",
+              ["@media (max-width:600px)"]: {
+                left: "5%",
+              },
+            }}
+          />
         </div>
       );
     } else {
@@ -171,7 +176,7 @@ const Files = () => {
   const button = {
     backgroundColor: "#66fcf1",
     color: "black",
-    width: "32.5vw",
+    width: "20.5vw",
     "&:hover": {
       backgroundColor: "#3fb0ac",
     },
@@ -184,121 +189,127 @@ const Files = () => {
 
   return (
     <>
-      {!Loaded ? (
-        <Loading />
-      ) : (
-        <>
-          <GoBottom color="#66fcf1" back="#3fb0ac" />
-          <FilePreview
-            fileurl={Fileurl}
-            show={showpreview}
-            setshow={setshowpreview}
-            type={type}
-          />
-          {ShowAlertBar()}
-          {ServerError()}
-          <div className="title">
-            <div>Files</div>
-          </div>
-          <div
-            className="filesbody"
-            style={showPaper ? { filter: "blur(5px)" } : { filter: "none" }}
-          >
-            <div className="Files">
-              {AllFiles.map((file) => (
-                <FileMap
-                  file={file}
-                  setfileurl={setFileurl}
-                  setshow={setshowpreview}
-                  settype={settype}
-                />
-              ))}
-            </div>
-          </div>
-          <div
-            id="paper"
-            style={showPaper ? { display: "block" } : { display: "none" }}
-          >
-            <div className="FileSelect">
-              <CloseIcon
-                sx={{
-                  position: "absolute",
-                  marginLeft: "32.5vw",
-                  marginTop: "2vh",
-                  ["@media (max-width:600px)"]: {
-                    marginLeft: "70vw",
-                    fontSize: "40px",
-                  },
-                }}
-                onClick={() => setshowPaper(false)}
+      <GoBottom color="#66fcf1" back="#3fb0ac" />
+      <FilePreview
+        fileurl={Fileurl}
+        show={showpreview}
+        setshow={setshowpreview}
+        type={type}
+      />
+      {ShowAlertBar()}
+      {ServerError()}
+      <div className="title">
+        <div>Files</div>
+      </div>
+      <div
+        className="filesbody"
+        style={showPaper ? { filter: "blur(5px)" } : { filter: "none" }}
+      >
+        {Loaded ? (
+          <div className="Files">
+            {AllFiles.map((file) => (
+              <FileMap
+                file={file}
+                setfileurl={setFileurl}
+                setshow={setshowpreview}
+                settype={settype}
+                backendUrl={backendUrl}
               />
-              <div className="selectedFile">
-                <div id="ImagefilePreview">{uploadPreview()}</div>
-                <div>
-                  <div>
-                    <b>FileName :</b> {FileName}
-                  </div>
-                  <div>
-                    <b>FileType :</b> {FileType}
-                  </div>
-                  <div>
-                    <b>Size :</b>{" "}
-                    {FileSize ? (FileSize / 1000000).toFixed(2) : ""}
-                    {FileSize ? <span> Mb</span> : ""}
-                  </div>
-                </div>
-                <div className="fileupload">
-                  <form
-                    action=""
-                    method="post"
-                    onSubmit={(e) => {
-                      UploadFile(e);
-                      File ? setshowPaper(false) : console.log(true);
-                      window.scrollTo({
-                        top: document.documentElement.scrollHeight,
-                        behavior: "smooth",
-                      });
-                    }}
+            ))}
+          </div>
+        ) : (
+          <Loading />
+        )}
+      </div>
+      <div
+        id="paper"
+        style={showPaper ? { display: "block" } : { display: "none" }}
+      >
+        <div className="FileSelect">
+          <CloseIcon
+            sx={{
+              position: "absolute",
+              marginLeft: "38.5vw",
+              marginTop: "2vh",
+              borderRadius: "50px",
+              "&:hover": {
+                backgroundColor: "rgba(128, 128, 128, 0.5)",
+              },
+              ["@media (max-width:600px)"]: {
+                marginLeft: "70vw",
+                fontSize: "40px",
+              },
+            }}
+            onClick={() => setshowPaper(false)}
+          />
+          <div className="selectedFile">
+            <div id="ImagefilePreview">{uploadPreview()}</div>
+            <div>
+              <p />
+              <b>FileName :</b>
+              <p />
+              {FileName}
+              <p />
+              <b>FileType :</b>
+              <p />
+              {FileType}
+              <p />
+              <b>Size :</b>
+              <p />
+              {FileSize ? (FileSize / 1000000).toFixed(2) : ""}
+              {FileSize ? <span> Mb</span> : ""}
+              <div className="fileupload">
+                <form
+                  action=""
+                  method="post"
+                  onSubmit={(e) => {
+                    UploadFile(e);
+                    File ? setshowPaper(false) : console.log(true);
+                    window.scrollTo({
+                      top: document.documentElement.scrollHeight,
+                      behavior: "smooth",
+                    });
+                  }}
+                >
+                  <input
+                    type="file"
+                    id="file"
+                    onChange={(e) => updateFiles(e)}
+                    accept="/*"
+                    hidden
+                  />
+
+                  <Button
+                    sx={button}
+                    variant="contained"
+                    startIcon={<AttachFileIcon />}
                   >
-                    <input
-                      type="file"
-                      id="file"
-                      onChange={(e) => updateFiles(e)}
-                      accept="/*"
-                      hidden
-                    />
+                    <label htmlFor="file">Select File</label>
+                  </Button>
 
-                    <Button
-                      sx={button}
-                      variant="contained"
-                      startIcon={<AttachFileIcon />}
-                    >
-                      <label htmlFor="file">Select File</label>
-                    </Button>
-
-                    <p />
-                    <Button
-                      sx={button}
-                      variant="contained"
-                      type="submit"
-                      startIcon={<Upload />}
-                    >
-                      Send
-                    </Button>
-                  </form>
-                </div>
+                  <p />
+                  <Button
+                    sx={button}
+                    variant="contained"
+                    type="submit"
+                    startIcon={<Upload />}
+                  >
+                    Send
+                  </Button>
+                </form>
               </div>
             </div>
           </div>
-          <Navigation
-            setshowPaper={setshowPaper}
-            showPaper={showPaper}
-            page={"Files"}
-          />
-        </>
-      )}
+        </div>
+      </div>
+      <Navigation
+        setshowPaper={setshowPaper}
+        showPaper={showPaper}
+        page={"Files"}
+        logout={logout}
+      />
     </>
   );
 };
 
-export default Files;
+export default React.memo(Files);

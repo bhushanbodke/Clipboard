@@ -61,4 +61,4 @@ const GoBottom = ({ color, back }) => {
   );
 };
 
-export default GoBottom;
+export default React.memo(GoBottom);

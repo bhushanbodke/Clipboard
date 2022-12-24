@@ -3,35 +3,25 @@ import { Button } from "@mui/material";
 import DownloadIcon from "@mui/icons-material/Download";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import { useContext } from "react";
 import axios from "axios";
-import LoginContext from "../context/context";
 import LazyLoad from "react-lazy-load";
 import "./files.css";
 
-const FileMap = ({ file, setfileurl, settype, setshow }) => {
-  let { backendUrl } = useContext(LoginContext);
-
+const FileMap = ({ file, setfileurl, settype, backendUrl, setshow }) => {
   const pill = {
     borderRadius: 50,
-    backgroundColor: "#66fcf1",
+    border: "solid 2px",
+    borderColor: "#3fb0ac",
     margin: "5px",
     marginTop: "25px",
     "&:hover": {
-      backgroundColor: "#3fb0ac",
-    },
-  };
-  const pill1 = {
-    borderRadius: 50,
-    backgroundColor: "#66fcf1",
-    margin: "5px",
-    marginTop: "5px",
-    "&:hover": {
-      backgroundColor: "#3fb0ac",
+      border: "solid 2px",
+      borderColor: "#66fcf1",
+      backgroundColor: "var(--background)",
     },
   };
   const icon = {
-    color: "#393f4d",
+    color: "#3fb0ac",
   };
 
   function DelFile(id) {
@@ -73,20 +63,23 @@ const FileMap = ({ file, setfileurl, settype, setshow }) => {
             </div>
           </div>
           <div>
-            <a href={backendUrl + file.Files}>
-              <Button sx={pill} variant="contained">
+            <a
+              href={backendUrl + file.Files}
+              download={backendUrl + file.Files}
+            >
+              <Button sx={pill} variant="outlined">
                 <DownloadIcon sx={icon} />
               </Button>
             </a>
             <a href={backendUrl + file.Files} target="_blank">
-              <Button sx={pill} variant="contained">
+              <Button sx={pill} variant="outlined">
                 <VisibilityIcon sx={icon} />
               </Button>
             </a>
             <Button
               sx={pill}
               onClick={() => DelFile(file.id)}
-              variant="contained"
+              variant="outlined"
             >
               <DeleteForeverIcon sx={icon} />
             </Button>
@@ -112,25 +105,21 @@ const FileMap = ({ file, setfileurl, settype, setshow }) => {
           <div>
             <b>Uploaded On :</b> {file.sendTime}
           </div>
-          <a href={backendUrl + file.Files}>
-            <Button sx={pill1} variant="contained">
+          <a href={backendUrl + file.Files} download={file.fileName}>
+            <Button sx={pill} variant="outlined">
               <DownloadIcon sx={icon} />
             </Button>
           </a>
           <a>
             <Button
-              sx={pill1}
-              variant="contained"
+              sx={pill}
+              variant="outlined"
               onClick={() => handlepreview(file)}
             >
               <VisibilityIcon sx={icon} />
             </Button>
           </a>
-          <Button
-            sx={pill1}
-            onClick={() => DelFile(file.id)}
-            variant="contained"
-          >
+          <Button sx={pill} onClick={() => DelFile(file.id)} variant="outlined">
             <DeleteForeverIcon sx={icon} />
           </Button>
         </div>
@@ -151,17 +140,17 @@ const FileMap = ({ file, setfileurl, settype, setshow }) => {
         <div>
           <b>Uploaded On :</b> {file.sendTime}
         </div>
-        <a href={backendUrl + file.Files}>
-          <Button sx={pill} variant="contained">
+        <a href={backendUrl + file.Files} download={file.fileName}>
+          <Button sx={pill} variant="outlined">
             <DownloadIcon sx={icon} />
           </Button>
         </a>
         <a href={backendUrl + file.Files} target="_blank">
-          <Button sx={pill} variant="contained">
+          <Button sx={pill} variant="outlined">
             <VisibilityIcon sx={icon} />
           </Button>
         </a>
-        <Button sx={pill} onClick={() => DelFile(file.id)} variant="contained">
+        <Button sx={pill} onClick={() => DelFile(file.id)} variant="outlined">
           <DeleteForeverIcon sx={icon} />
         </Button>
       </div>
@@ -169,4 +158,4 @@ const FileMap = ({ file, setfileurl, settype, setshow }) => {
   }
 };
 
-export default FileMap;
+export default React.memo(FileMap);

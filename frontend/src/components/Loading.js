@@ -3,12 +3,12 @@ import "./loading.css";
 
 const Loading = () => {
   return (
-    <div className="body">
+    <div className="loadingbody">
       <div className="loading">
         <svg
           viewBox="0 0 57 57"
           xmlns="http://www.w3.org/2000/svg"
-          stroke="#fff"
+          stroke="#3fb0ac"
         >
           <g fill="none" fill-rule="evenodd">
             <g transform="translate(1 1)" stroke-width="2">
@@ -75,10 +75,10 @@ const Loading = () => {
             </g>
           </g>
         </svg>
-        <h1 style={{ fontSize: "40px" }}>Loading ...</h1>
+        <h1 style={{ fontSize: "25px" }}>Loading ...</h1>
       </div>
     </div>
   );
 };
 
-export default Loading;
+export default React.memo(Loading);

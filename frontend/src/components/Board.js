@@ -1,8 +1,7 @@
 import "./board.css";
-import React, { useContext, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Button, Paper } from "@mui/material";
 import RefreshIcon from "@mui/icons-material/Refresh";
-import LoginContext from "../context/context";
 import { useState } from "react";
 import axios from "axios";
 import GoBottom from "./GoBottom";
@@ -12,13 +11,15 @@ import CloseIcon from "@mui/icons-material/Close";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import Send from "@mui/icons-material/Send";
 
-const Main = (props) => {
-  let { user } = useContext(LoginContext);
-  let { username } = useContext(LoginContext);
-  let { setlogged } = useContext(LoginContext);
-  let { authtoken } = useContext(LoginContext);
-  let { backendUrl } = useContext(LoginContext);
-  let { logged } = useContext(LoginContext);
+const Main = ({
+  authtoken,
+  user,
+  backendUrl,
+  logout,
+  username,
+  logged,
+  setlogged,
+}) => {
   let [serverError, setserverError] = useState(true);
   let [showPaper, setshowPaper] = useState(false);
   let [Loaded, setLoaded] = useState(false);
@@ -104,7 +105,16 @@ const Main = (props) => {
           className="servererror title"
         >
           <div>Cannot connect to server</div>
-          <RefreshIcon sx={{ position: "absolute", top: "2px", left: "36%" }} />
+          <RefreshIcon
+            sx={{
+              position: "absolute",
+              top: "2px",
+              left: "36%",
+              ["@media (max-width:600px)"]: {
+                left: "10%",
+              },
+            }}
+          />
         </div>
       );
     } else {
@@ -131,123 +141,120 @@ const Main = (props) => {
 
   return (
     <>
-      {!Loaded ? (
-        <Loading />
-      ) : (
-        <>
-          <GoBottom color="#feda6a" back="#D29707" />
-          {logged ? (
-            <div className="alert">
-              <div className="div1" style={{ backgroundColor: "#8fff82" }}>
-                Sucessfully logged in as <strong>{username}</strong>
-              </div>
-            </div>
-          ) : null}
-          <div className="title">
-            <div style={{ fontSize: "45px" }}>Clipboard</div>
+      <GoBottom color="#feda6a" back="#D29707" />
+      {logged ? (
+        <div className="alert">
+          <div className="div1" style={{ backgroundColor: "#8fff82" }}>
+            Sucessfully logged in as <strong>{username}</strong>
           </div>
-          {ServerError()}
-          <div
-            className="msgbody"
-            style={showPaper ? { filter: "blur(5px)" } : { filter: "none" }}
-          >
-            <div className="msgs">
-              {AllMessages.map((message) => (
-                <div id={message.id} className="message" key={message.id}>
-                  <div>
-                    <h2>{message.body}</h2>
-                  </div>
-                  <p />
-
+        </div>
+      ) : null}
+      <div className="title">
+        <div style={{ fontSize: "45px" }}>Clipboard</div>
+      </div>
+      {ServerError()}
+      <div
+        className="msgbody"
+        style={showPaper ? { filter: "blur(5px)" } : { filter: "none" }}
+      >
+        {Loaded ? (
+          <div className="msgs">
+            {AllMessages.map((message) => (
+              <div id={message.id} className="message" key={message.id}>
+                <div>
+                  <h2>{message.body}</h2>
+                </div>
+                <div className="deleteIcon">
                   <DeleteForeverIcon
                     sx={{
-                      paddingLeft: "40vw",
-                      ["@media (max-width:600px)"]: {
-                        paddingLeft: "78vw",
-                      },
+                      fontSize: "25px",
+                      margin: "8px",
                     }}
                     onClick={() => DelMessage(message.id)}
                   />
                 </div>
-              ))}
-            </div>
-          </div>
-          <div
-            id="paper"
-            style={showPaper ? { display: "block" } : { display: "none" }}
-          >
-            <Paper elevation={10} sx={pagestyle}>
-              <div
-                style={{
-                  textAlign: "center",
-                  color: "white",
-                  fontSize: "25px",
-                }}
-              >
-                Add
               </div>
-              <CloseIcon
-                sx={{
-                  color: "#feda6a",
-                  position: "absolute",
-                  marginLeft: "94%",
-                  marginTop: "-4%",
-                  fontSize: "25px",
-                  ["@media (max-width:600px)"]: {
-                    marginLeft: "88%",
-                    fontSize: "35px",
-                  },
-                }}
-                onClick={() => setshowPaper(false)}
-              />
-
-              <form
-                action=""
-                onSubmit={(e) => {
-                  SaveMsg(e);
-                  e.target.MessageBody.value === ""
-                    ? alert("No")
-                    : setshowPaper(false);
-                }}
-              >
-                <textarea
-                  type="text"
-                  name="MessageBody"
-                  label="Clipboard"
-                  placeholder="Clipboard"
-                  cols="10"
-                  rows="12"
-                ></textarea>
-
-                <p />
-                <Button
-                  sx={{
-                    marginLeft: "5%",
-                    backgroundColor: "#feda6a",
-                    color: "black",
-                    width: "40vw",
-                    ["@media (max-width:600px)"]: {
-                      width: "88%",
-                    },
-                  }}
-                  variant="contained"
-                  type="submit"
-                  endIcon={<Send />}
-                >
-                  Send
-                </Button>
-              </form>
-            </Paper>
+            ))}
           </div>
-          <Navigation
-            setshowPaper={setshowPaper}
-            showPaper={showPaper}
-            page={"clipboard"}
+        ) : (
+          <Loading />
+        )}
+      </div>
+      <div
+        id="paper"
+        style={showPaper ? { display: "block" } : { display: "none" }}
+      >
+        <Paper elevation={10} sx={pagestyle}>
+          <div
+            style={{
+              textAlign: "center",
+              color: "white",
+              fontSize: "25px",
+            }}
+          >
+            Add
+          </div>
+          <CloseIcon
+            sx={{
+              color: "#feda6a",
+              position: "absolute",
+              marginLeft: "94%",
+              marginTop: "-4%",
+              fontSize: "25px",
+              ["@media (max-width:600px)"]: {
+                marginLeft: "88%",
+                fontSize: "35px",
+              },
+            }}
+            onClick={() => setshowPaper(false)}
           />
-        </>
-      )}
+
+          <form
+            action=""
+            onSubmit={(e) => {
+              SaveMsg(e);
+              e.target.MessageBody.value === ""
+                ? alert("No")
+                : setshowPaper(false);
+            }}
+          >
+            <textarea
+              type="text"
+              name="MessageBody"
+              label="Clipboard"
+              placeholder="Clipboard"
+              cols="10"
+              rows="12"
+            ></textarea>
+
+            <p />
+            <Button
+              sx={{
+                marginLeft: "5%",
+                backgroundColor: "#feda6a",
+                color: "black",
+                width: "40vw",
+                ["@media (max-width:600px)"]: {
+                  width: "88%",
+                },
+              }}
+              variant="contained"
+              type="submit"
+              endIcon={<Send />}
+            >
+              Send
+            </Button>
+          </form>
+        </Paper>
+      </div>
+      <Navigation
+        setshowPaper={setshowPaper}
+        showPaper={showPaper}
+        page={"clipboard"}
+        logout={logout}
+      />
     </>
   );
 };
 
-export default Main;
+export default React.memo(Main);

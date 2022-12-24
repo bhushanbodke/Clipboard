@@ -6,8 +6,15 @@ const FilePreview = ({ fileurl, type, show, setshow }) => {
     position: "absolute",
     left: "93%",
     top: "1%",
-    fontSize: "35px",
+    color: "var(--primary)",
+    width: "35px",
+    height: "35px",
+    borderRadius: "50px",
+    "&:hover": {
+      backgroundColor: "rgba(128, 128, 128, 0.5)",
+    },
     ["@media(max-width:600px)"]: {
+      left: "90%",
       fontSize: "25px",
     },
   };
@@ -35,6 +42,7 @@ const FilePreview = ({ fileurl, type, show, setshow }) => {
             sx={close}
             onClick={() => {
               setshow(false);
+              document.querySelector(".filesbody").style.filter = "none";
             }}
           />
         </div>
@@ -43,4 +51,4 @@ const FilePreview = ({ fileurl, type, show, setshow }) => {
   }
 };
 
-export default FilePreview;
+export default React.memo(FilePreview);
