@@ -4,8 +4,10 @@ import { Button, Paper } from "@mui/material";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import { useState } from "react";
 import axios from "axios";
+import { ReactDOM } from "react";
 import GoBottom from "./GoBottom";
 import Loading from "./Loading";
+import Servererror from "./Servererror";
 import Navigation from "./Navigation";
 import CloseIcon from "@mui/icons-material/Close";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
@@ -23,6 +25,7 @@ const Main = ({
   let [serverError, setserverError] = useState(true);
   let [showPaper, setshowPaper] = useState(false);
   let [Loaded, setLoaded] = useState(false);
+  let [NewMsgs, setNewMsgs] = useState([]);
   let [AllMessages, setMessages] = useState(
     localStorage.getItem("messages")
       ? JSON.parse(localStorage.getItem("messages"))
@@ -54,6 +57,7 @@ const Main = ({
 
   //Get all messages
   function GetMessages() {
+    document.querySelector("body").scroll(0, document.body.scrollHeight);
     axios
       .get(backendUrl + "/msg", header)
       .catch((error) => {
@@ -62,81 +66,112 @@ const Main = ({
       })
       .then((response) => {
         setMessages(response.data);
+        setNewMsgs([]);
         setserverError(false);
         localStorage.setItem("messages", JSON.stringify(response.data));
-        localStorage.setItem("No", response.data.length);
         setLoaded(true);
       });
   }
 
   useEffect(() => {
+    if (!localStorage.getItem("PendingMsg")) {
+      const array = [];
+      localStorage.setItem("PendingMsg", array);
+    } else {
+      let messages = JSON.parse(localStorage.getItem("PendingMsg"));
+      messages.forEach((message) => {
+        addNew(message.body);
+      });
+    }
     GetMessages();
     setTimeout(() => {
       setlogged(false);
     }, 5000);
   }, []);
 
-  function GetNo() {
-    axios.get(backendUrl + "/getNo", header).then((response) => {
-      console.log(response.data);
-      let no = localStorage.getItem("No");
-      if (no !== response.data) {
-        GetMessages();
-      }
-    });
-  }
   useEffect(() => {
-    let interval = setInterval(() => {
-      GetNo();
-    }, 2000);
-    return () => {
-      clearInterval(interval);
-    };
-  }, []);
-
-  // server error
-  function ServerError() {
-    if (serverError) {
-      return (
-        <div
-          onClick={() => {
-            window.location.reload();
-          }}
-          className="servererror title"
-        >
-          <div>Cannot connect to server</div>
-          <RefreshIcon
-            sx={{
-              position: "absolute",
-              top: "2px",
-              left: "36%",
-              ["@media (max-width:600px)"]: {
-                left: "10%",
-              },
-            }}
-          />
-        </div>
-      );
-    } else {
-      return null;
+    if (!serverError && localStorage.getItem("PendingMsg")) {
+      pendingMsgs();
     }
-  }
+  }, [serverError]);
+
+  // pending message function so that even when server is offline user can still send
   function SaveMsg(e) {
     e.preventDefault();
     let data = {
       body: e.target.MessageBody.value,
       owner: user,
     };
+    if (serverError) {
+      let pendingMsg = [];
+      if (localStorage.getItem("PendingMsg")) {
+        pendingMsg = JSON.parse(localStorage.getItem("PendingMsg"));
+      }
+      pendingMsg.push(data);
+      localStorage.setItem("PendingMsg", JSON.stringify(pendingMsg));
+    } else {
+      sendMsg(e, data);
+    }
+    addNew(data.body);
+  }
+
+  function addNew(body) {
+    setNewMsgs((prev) => [...prev, NewMsg(body)]);
+  }
+
+  const NewMsg = (body) => {
+    return (
+      <div className="message">
+        <div>
+          <h2>{body}</h2>
+        </div>
+        <div className="deleteIcon">
+          <DeleteForeverIcon
+            sx={{
+              fontSize: "25px",
+              margin: "8px",
+            }}
+            onClick={(e) => DelMessage(null, e)}
+          />
+        </div>
+      </div>
+    );
+  };
+
+  function pendingMsgs() {
+    let messages = JSON.parse(localStorage.getItem("PendingMsg"));
+    console.log(messages);
+    messages.forEach((message) => {
+      sendMsg(null, message);
+    });
+    localStorage.setItem("PendingMsg", JSON.stringify([]));
+  }
+
+  // send message to backend
+  function sendMsg(e, data) {
     axios
       .post(backendUrl + "/addmsg", data)
-      .then(() => GetMessages())
+      .catch((error) => {
+        let pendingMsg = [];
+        if (localStorage.getItem("PendingMsg")) {
+          pendingMsg = JSON.parse(localStorage.getItem("PendingMsg"));
+        }
+        pendingMsg.push(data);
+        localStorage.setItem("PendingMsg", JSON.stringify(pendingMsg));
+      })
+      .then(() => addNew(data.body))
       .then(() => (e.target.MessageBody.value = ""));
   }
-  function DelMessage(id) {
-    axios
-      .delete(backendUrl + "/deletemsg/" + id)
-      .then((response) => console.log(response.data))
-      .then(() => (document.getElementById(id).style.display = "none"));
+
+  function DelMessage(id, e) {
+    if (id) {
+      axios
+        .delete(backendUrl + "/deletemsg/" + id)
+        .then((response) => console.log(response.data))
+        .then(() => (document.getElementById(id).style.display = "none"));
+    } else {
+      e.target.parentNode.parentNode.parentNode.remove();
+    }
   }
 
   return (
@@ -152,7 +187,7 @@ const Main = ({
       <div className="title">
         <div style={{ fontSize: "45px" }}>Clipboard</div>
       </div>
-      {ServerError()}
+      <Servererror serverError={serverError} />
       <div
         className="msgbody"
         style={showPaper ? { filter: "blur(5px)" } : { filter: "none" }}
@@ -164,17 +199,18 @@ const Main = ({
                 <div>
                   <h2>{message.body}</h2>
                 </div>
-                <div className="deleteIcon">
+                <div className="deleteIcon" title="delete message">
                   <DeleteForeverIcon
                     sx={{
                       fontSize: "25px",
                       margin: "8px",
                     }}
-                    onClick={() => DelMessage(message.id)}
+                    onClick={() => DelMessage(message.id, null)}
                   />
                 </div>
               </div>
             ))}
+            {NewMsgs}
           </div>
         ) : (
           <Loading />
@@ -252,6 +288,7 @@ const Main = ({
         showPaper={showPaper}
         page={"clipboard"}
         logout={logout}
+        refresh={GetMessages}
       />
     </>
   );

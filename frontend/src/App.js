@@ -34,18 +34,10 @@ function App() {
   let navigate = useNavigate();
   const [loading, setloading] = useState(false);
   const [error, seterror] = useState(false);
-  const [backendUrl, setbackendUrl] = useState("http://192.168.1.3:8000");
+  const [backendUrl, setbackendUrl] = useState("http://192.168.1.4:8000");
   const [logged, setlogged] = useState(false);
 
-  async function register(e) {
-    e.preventDefault();
-    let username = e.target.Username.value;
-    let password1 = e.target.Password.value;
-    let password2 = e.target.PasswordConfirmation.value;
-    if (password1 != password2) {
-      seterror(true);
-      document.querySelector(".div2").innerHTML = "Passwords doesn't match";
-    }
+  async function register(username, password1, password2) {
     axios
       .post(backendUrl + "/register", {
         username: username,
@@ -168,12 +160,7 @@ function App() {
             )
           }
         />
-        <Route
-          path="/register"
-          element={
-            <Register register={register} setlogged={setlogged} error={error} />
-          }
-        />
+        <Route path="/register" element={<Register register={register} />} />
       </Routes>
     </>
   );

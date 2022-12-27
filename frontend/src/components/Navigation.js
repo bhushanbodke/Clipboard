@@ -7,17 +7,16 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import FolderIcon from "@mui/icons-material/Folder";
 import CommentIcon from "@mui/icons-material/Comment";
 import "./navigation.css";
-import { useEffect } from "react";
-import { useState } from "react";
+import RefreshIcon from "@mui/icons-material/Refresh";
+import { useEffect, useState } from "react";
 
-const Navigation = ({ setshowPaper, showPaper, page, logout }) => {
+const Navigation = ({ setshowPaper, showPaper, page, logout, refresh }) => {
   let [is_pressed, setpressed] = useState(false);
   let [darkTheme, setdarkTheme] = useState(
     localStorage.getItem("darktheme")
       ? JSON.parse(localStorage.getItem("darktheme"))
       : false
   );
-  console.log(document.querySelector("body").scrollTop);
   useEffect(() => {
     let r = document.querySelector(":root");
     if (page == "clipboard") {
@@ -50,6 +49,12 @@ const Navigation = ({ setshowPaper, showPaper, page, logout }) => {
   let navigate = useNavigate();
   return (
     <div className="nav" style={{ zIndex: 1 }}>
+      <div className="item" onClick={() => refresh()}>
+        <div className="icon">
+          <RefreshIcon />
+          <span className="label">Refresh</span>
+        </div>
+      </div>
       <div
         className="item"
         onClick={() => {

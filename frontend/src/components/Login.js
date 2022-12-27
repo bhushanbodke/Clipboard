@@ -1,15 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import "./login.css";
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
+import Checkbox from "@mui/material/Checkbox";
+import LockTwoToneIcon from "@mui/icons-material/LockTwoTone";
+import AccountCircleTwoToneIcon from "@mui/icons-material/AccountCircleTwoTone";
 
 const Login = ({ login, error }) => {
+  let [checked, setchecked] = useState(false);
+
   const style = {
     backgroundColor: "#3fb0ac",
     color: "#393f4d",
     width: "40vw",
     borderRadius: "10px",
-    marginTop: "35px",
+    marginTop: "25px",
     "&:hover": {
       backgroundColor: "#20c7c1",
     },
@@ -52,14 +57,27 @@ const Login = ({ login, error }) => {
               placeholder="  Username"
               name="Username"
             />
+            <span className="inputIcon registerIcon">
+              <AccountCircleTwoToneIcon />
+            </span>
             <p />
             <input
-              type="password"
+              type={checked ? "text" : "password"}
               label="Password"
               placeholder="  Password"
               name="Password"
             />
+            <span className="inputIcon registerIcon pass">
+              <LockTwoToneIcon />
+            </span>
             <p />
+            <div className="check">
+              <Checkbox
+                checked={checked}
+                onChange={() => setchecked(!checked)}
+              />
+              <b>Show password</b>
+            </div>
             <Button type="submit" sx={style} variant="contained">
               Login
             </Button>

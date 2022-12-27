@@ -4,8 +4,8 @@ import { Button, Paper } from "@mui/material";
 import Upload from "@mui/icons-material/Upload";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import { useState, useEffect } from "react";
-import RefreshIcon from "@mui/icons-material/Refresh";
 import axios from "axios";
+import Servererror from "./Servererror";
 import FilePreview from "./FilePreview";
 import Navigation from "./Navigation";
 import "./files.css";
@@ -37,6 +37,7 @@ const Files = ({ authtoken, backendUrl, logout, user }) => {
   }, []);
 
   function GetFiles() {
+    document.querySelector("body").scroll(0, document.body.scrollHeight);
     let header = {
       headers: {
         Authorization: `Bearer ${authtoken.access}`,
@@ -103,32 +104,6 @@ const Files = ({ authtoken, backendUrl, logout, user }) => {
     setFileType("");
     setFileName("");
     setFileSize("");
-  }
-  function ServerError() {
-    if (serverError) {
-      return (
-        <div
-          className="servererror title"
-          onClick={() => {
-            window.location.reload();
-          }}
-        >
-          <div>Cannot not connect to server</div>
-          <RefreshIcon
-            sx={{
-              position: "absolute",
-              top: "2px",
-              left: "36%",
-              ["@media (max-width:600px)"]: {
-                left: "5%",
-              },
-            }}
-          />
-        </div>
-      );
-    } else {
-      return null;
-    }
   }
 
   function ShowAlertBar() {
@@ -197,7 +172,7 @@ const Files = ({ authtoken, backendUrl, logout, user }) => {
         type={type}
       />
       {ShowAlertBar()}
-      {ServerError()}
+      <Servererror serverError={serverError} />
       <div className="title">
         <div>Files</div>
       </div>
@@ -306,6 +281,7 @@ const Files = ({ authtoken, backendUrl, logout, user }) => {
         setshowPaper={setshowPaper}
         showPaper={showPaper}
         page={"Files"}
+        refresh={GetFiles}
         logout={logout}
       />
     </>
