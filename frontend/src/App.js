@@ -4,6 +4,7 @@ import { Routes, Route } from "react-router-dom";
 import Login from "./components/Login";
 import Files from "./components/Files";
 import Board from "./components/Board";
+import GetUrl from "./components/GetUrl";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -34,7 +35,12 @@ function App() {
   let navigate = useNavigate();
   const [loading, setloading] = useState(false);
   const [error, seterror] = useState(false);
-  const [backendUrl, setbackendUrl] = useState("http://192.168.1.4:8000");
+  const [backendUrl, setbackendUrl] = useState(
+    localStorage.getItem("backendurl")
+      ? JSON.parse(localStorage.getItem("backendurl"))
+      : navigate("")
+  );
+
   const [logged, setlogged] = useState(false);
 
   async function register(username, password1, password2) {
@@ -72,7 +78,7 @@ function App() {
         setauthtoken(response.data);
         setusername(jwt_decode(response.data.access).username);
         setlogged(true);
-        navigate("");
+        navigate("/board");
       });
   }
   async function logout() {
@@ -143,7 +149,7 @@ function App() {
           }
         />
         <Route
-          path=""
+          path="/board"
           element={
             username ? (
               <Board
@@ -161,6 +167,7 @@ function App() {
           }
         />
         <Route path="/register" element={<Register register={register} />} />
+        <Route path="" element={<GetUrl seturl={setbackendUrl} />} />
       </Routes>
     </>
   );

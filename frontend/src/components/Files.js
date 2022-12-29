@@ -34,6 +34,7 @@ const Files = ({ authtoken, backendUrl, logout, user }) => {
 
   useEffect(() => {
     GetFiles();
+    console.log(backendUrl);
   }, []);
 
   function GetFiles() {

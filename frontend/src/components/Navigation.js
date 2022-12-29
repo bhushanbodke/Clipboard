@@ -73,7 +73,7 @@ const Navigation = ({ setshowPaper, showPaper, page, logout, refresh }) => {
           <span className="label">Files</span>
         </div>
       </div>
-      <div className="item" id="clipboard" onClick={() => navigate("/")}>
+      <div className="item" id="clipboard" onClick={() => navigate("/board")}>
         <div className="icon">
           <CommentIcon />
 

@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'django_cleanup.apps.CleanupConfig',
-
 ]
 
 REST_FRAMEWORK = {
@@ -66,9 +65,10 @@ MIDDLEWARE = [
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
 
-ALLOWED_HOSTS = ['192.168.1.4','192.168.1.2','192.168.1.3']
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["127.0.0.1","localhost"]
+
 
 ROOT_URLCONF = 'clipboard.urls'
 
